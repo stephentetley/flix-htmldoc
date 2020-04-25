@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-use Text/PrettyPrint.{Doc, prettyPrint, vcat, fillCat, besideSpace, beside, besideSoftline, encloseSep, dquotes, hang};
+use Text/PrettyPrint.{Doc, prettyPrint, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang};
 use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
     
 namespace Text/HtmlDoc {
@@ -42,7 +42,7 @@ namespace Text/HtmlDoc {
 
     def <>(d1: Doc, d2: Doc): Doc = beside(d1, d2)
     def <<>>(d1: Doc, d2: Doc): Doc = besideSpace(d1, d2)
-    def <!>(d1: Doc, d2: Doc): Doc = besideSoftline(d1, d2)
+    def <!!>(d1: Doc, d2: Doc): Doc = besideSoftbreak(d1, d2)
 
     /// TODO - CPS
     def ppHtml(x: Html): Doc = 
@@ -52,13 +52,13 @@ namespace Text/HtmlDoc {
     def ppHtmlElement(x: HtmlElement): Doc = match x { 
         case HtmlText(s)                => ppText(s)
         case HtmlComment(s)             => ppText("<!--") <<>> ppText(s) <<>> ppText("-->")
-        case HtmlTag(name, attrs, body) => ppOpenTag(name, attrs) <!> hang(4, ppHtml(body)) <!> ppCloseTag(name)
+        case HtmlTag(name, attrs, body) => ppOpenTag(name, attrs) <!!> hang(4, ppHtml(body)) <!!> ppCloseTag(name)
     }
 
     def ppOpenTag(name: String, attrs: List[HtmlAttr]): Doc = 
         encloseSep(ppText("<" + name), ppChar('>'), ppSpace(), List.map(ppAttr, attrs))
 
-    def ppCloseTag(name: String): Doc = ppText("<" + name + ">")
+    def ppCloseTag(name: String): Doc = ppText("</" + name + ">")
 
     def ppAttr (attr: HtmlAttr): Doc = match attr {
         case HtmlAttrEmpty(name)    => ppText(name)
