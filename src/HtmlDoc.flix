@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-use Text/PrettyPrint.{Doc, prettyPrint, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang};
+use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang};
 use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
     
 namespace Text/HtmlDoc {
@@ -23,6 +23,7 @@ namespace Text/HtmlDoc {
     pub enum HtmlElement {
         case HtmlText(String),
         case HtmlTag(String, List[HtmlAttr], Html),
+        case HtmlTagNoBody(String, List[HtmlAttr]),
         case HtmlComment(String)
     }
 
@@ -31,14 +32,19 @@ namespace Text/HtmlDoc {
         case HtmlAttrEmpty(String)
     }
 
+
     pub opaque type Html = List[HtmlElement] -> List[HtmlElement]
 
 
 
-    pub def toString(x: Html): String = toStringWithWidth(x, 80)
 
-    pub def toStringWithWidth(x: Html, width: Int32): String = 
+    pub def toString(x: Html): String = outputHtml(80, x)
+
+    pub def outputHtml(width: Int32, x: Html): String = 
         prettyPrint(width, ppHtml(x))
+
+    pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
+        prettyPrint!(sb, width, ppHtml(x))
 
     def <>(d1: Doc, d2: Doc): Doc = beside(d1, d2)
     def <<>>(d1: Doc, d2: Doc): Doc = besideSpace(d1, d2)
@@ -47,12 +53,14 @@ namespace Text/HtmlDoc {
     /// TODO - CPS
     def ppHtml(x: Html): Doc = 
         let Html(f) = x;
-        vcat(List.map(ppHtmlElement, f(Nil)))
+        let xs = List.map(ppHtmlElement, f(Nil));
+        vcat(ppDocType() :: xs)
 
     def ppHtmlElement(x: HtmlElement): Doc = match x { 
         case HtmlText(s)                => ppText(s)
         case HtmlComment(s)             => ppText("<!--") <<>> ppText(s) <<>> ppText("-->")
         case HtmlTag(name, attrs, body) => ppOpenTag(name, attrs) <!!> hang(4, ppHtml(body)) <!!> ppCloseTag(name)
+        case HtmlTagNoBody(name, attrs) => ppOpenTag(name, attrs) <> ppChar('>')
     }
 
     def ppOpenTag(name: String, attrs: List[HtmlAttr]): Doc = 
@@ -65,6 +73,7 @@ namespace Text/HtmlDoc {
         case HtmlAttr(name, value)  => ppText(name) <> ppChar('=') <> dquotes(ppText(value))
     }
 
+    def ppDocType(): Doc = ppText("<!DOCTYPE html>")
 
     ///
     /// Returns string `s` with all occurences of HTML special characters replaced.
@@ -92,40 +101,53 @@ namespace Text/HtmlDoc {
 
     pub def text(s: String): Html = makeHtml(HtmlText(escapeHtml(s)))
 
-    pub def attr(name: String, value: String): HtmlAttr = HtmlAttr(name, value)
-
-    pub def tag(name: String, attrs: List[HtmlAttr], content: Html): HtmlElement = 
-        HtmlTag(name, attrs, content)
-
     pub def append(x: Html, y: Html): Html = match (x, y) {
         case (Html(k1), Html(k2)) => Html(xs -> k1(k2(xs)))
     }
 
-    pub def html(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("html", attrs, content))
+    pub def <&>(x: Html, y: Html): Html = append(x, y)
 
-    pub def body(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("body", attrs, content))
+    pub def concat(xs: List[Html]): Html = match xs { 
+        case Nil => Html(xs -> xs)
+        case x :: rs => concatHelper(rs, x)
+    }
 
-    pub def h1(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h1", attrs, content))
-    pub def h2(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h2", attrs, content))
-    pub def h3(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h3", attrs, content))
-    pub def h4(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h4", attrs, content))
-    pub def h5(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h5", attrs, content))
-    pub def h6(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("h6", attrs, content))
+    pub def concatHelper(xs: List[Html], ac: Html): Html = match xs {
+        case Nil => ac
+        case x :: rs => concatHelper(rs, ac <&> x)
+    }
 
-    pub def table(attrs: List[HtmlAttr], content: Html):Html = makeHtml(tag("table", attrs, content))
+    pub def html(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("html", attrs, content))
+    pub def head(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("head", attrs, content))
+    pub def body(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("body", attrs, content))
 
-    pub def tr(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("tr", attrs, content))
+    pub def title(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("title", attrs, content))
 
-    pub def td(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("td", attrs, content))
+    pub def h1(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h1", attrs, content))
+    pub def h2(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h2", attrs, content))
+    pub def h3(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h3", attrs, content))
+    pub def h4(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h4", attrs, content))
+    pub def h5(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h5", attrs, content))
+    pub def h6(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h6", attrs, content))
+
+    pub def link(attrs: List[HtmlAttr]): Html = makeHtml(HtmlTagNoBody("link", attrs))
+
+    pub def table(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("table", attrs, content))
+
+    pub def tr(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("tr", attrs, content))
+    pub def td(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("td", attrs, content))
+    pub def th(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("th", attrs, content))
  
-    pub def ol(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("ol", attrs, content))
-    pub def ul(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("ul", attrs, content))
-    pub def li(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("li", attrs, content))
+    pub def ol(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("ol", attrs, content))
+    pub def ul(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("ul", attrs, content))
+    pub def li(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("li", attrs, content))
 
-    pub def anchor(attrs: List[HtmlAttr], content: Html): Html = makeHtml(tag("a", attrs, content))
+    pub def anchor(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("a", attrs, content))
 
 
-    pub def href(s: String): HtmlAttr = attr("href", s)
-
+    pub def href_(s: String): HtmlAttr = HtmlAttr("href", s)
+    pub def type_(s: String): HtmlAttr = HtmlAttr("type", s)
+    pub def colspan_(s: String): HtmlAttr = HtmlAttr("colspan", s)
+    pub def rel_(s: String): HtmlAttr = HtmlAttr("rel", s)
 
 }
