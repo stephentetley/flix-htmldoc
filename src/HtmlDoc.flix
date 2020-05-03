@@ -36,6 +36,7 @@ namespace Text/HtmlDoc {
     pub opaque type Html = List[HtmlElement] -> List[HtmlElement]
 
 
+    /// Potentially we need a no-pretty version for speed.
 
 
     pub def toString(x: Html): String = outputHtml(80, x)
@@ -46,6 +47,12 @@ namespace Text/HtmlDoc {
     pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
         prettyPrint!(sb, width, ppHtml(x))
 
+    pub def exportHtml(width: Int32, path: String, x: Html): Result[Unit, String] & Impure = 
+        use Result.flatMap;
+        let str = prettyPrint(width, ppDocType() <!!> ppHtml(x));
+        let path1 = System/FilePath.new(path);
+        System/File.writeFile(path1, System/Charset.utf_8(), str)
+
     def <>(d1: Doc, d2: Doc): Doc = beside(d1, d2)
     def <<>>(d1: Doc, d2: Doc): Doc = besideSpace(d1, d2)
     def <!!>(d1: Doc, d2: Doc): Doc = besideSoftbreak(d1, d2)
@@ -54,19 +61,21 @@ namespace Text/HtmlDoc {
     def ppHtml(x: Html): Doc = 
         let Html(f) = x;
         let xs = List.map(ppHtmlElement, f(Nil));
-        vcat(ppDocType() :: xs)
+        vcat(xs)
 
     def ppHtmlElement(x: HtmlElement): Doc = match x { 
         case HtmlText(s)                => ppText(s)
         case HtmlComment(s)             => ppText("<!--") <<>> ppText(s) <<>> ppText("-->")
-        case HtmlTag(name, attrs, body) => ppOpenTag(name, attrs) <!!> hang(4, ppHtml(body)) <!!> ppCloseTag(name)
-        case HtmlTagNoBody(name, attrs) => ppOpenTag(name, attrs) <> ppChar('>')
+        case HtmlTag(name, attrs, body) => ppOpeningTag(name, attrs) <!!> hang(4, ppHtml(body)) <!!> ppClosingTag(name)
+        case HtmlTagNoBody(name, attrs) => ppOpeningTag(name, attrs)
     }
 
-    def ppOpenTag(name: String, attrs: List[HtmlAttr]): Doc = 
-        encloseSep(ppText("<" + name), ppChar('>'), ppSpace(), List.map(ppAttr, attrs))
+    def ppOpeningTag(name: String, attrs: List[HtmlAttr]): Doc = match attrs {
+        case Nil => ppText("<" + name + ">")
+        case _ => encloseSep(ppText("<" + name + " "), ppChar('>'), ppSpace(), List.map(ppAttr, attrs))
+    }
 
-    def ppCloseTag(name: String): Doc = ppText("</" + name + ">")
+    def ppClosingTag(name: String): Doc = ppText("</" + name + ">")
 
     def ppAttr (attr: HtmlAttr): Doc = match attr {
         case HtmlAttrEmpty(name)    => ppText(name)
