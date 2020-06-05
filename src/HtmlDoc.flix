@@ -20,6 +20,7 @@ use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
 namespace Text/HtmlDoc {
     
     /// TODO - probably shouldn't be exposed...
+    /// Do we need a `Raw` element for `script` and `svg` content?
     pub enum HtmlElement {
         case HtmlText(String),
         case HtmlTag(String, List[HtmlAttr], Html),
@@ -36,7 +37,7 @@ namespace Text/HtmlDoc {
     pub opaque type Html = List[HtmlElement] -> List[HtmlElement]
 
 
-    /// Potentially we need a no-pretty version for speed.
+    /// Potentially we need a "no-pretty" version for speed.
 
 
     pub def toString(x: Html): String = outputHtml(80, x)
@@ -47,7 +48,7 @@ namespace Text/HtmlDoc {
     pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
         prettyPrint!(sb, width, ppHtml(x))
 
-    pub def writeHtml(width: Int32, path: String, cs: Text.Charset, x: Html): Result[Unit, String] & Impure = 
+    pub def writeHtml(width: Int32, path: String, cs: Text.Charset, x: Html): Result[Unit, System.Error] & Impure = 
         use Result.flatMap;
         let str = prettyPrint(width, ppDocType() <!!> ppHtml(x));
         let path1 = System/FilePath.new(path);
@@ -128,9 +129,14 @@ namespace Text/HtmlDoc {
 
     pub def html(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("html", attrs, content))
     pub def head(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("head", attrs, content))
+    pub def meta(attrs: List[HtmlAttr]): Html = makeHtml(HtmlTagNoBody("meta", attrs))
     pub def body(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("body", attrs, content))
 
     pub def title(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("title", attrs, content))
+
+    pub def script(attrs: List[HtmlAttr], body: String): Html = 
+        let content = makeHtml(HtmlText(body));
+        makeHtml(HtmlTag("script", attrs, content))
 
     pub def h1(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h1", attrs, content))
     pub def h2(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h2", attrs, content))
@@ -153,10 +159,20 @@ namespace Text/HtmlDoc {
 
     pub def anchor(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("a", attrs, content))
 
+    pub def svg(attrs: List[HtmlAttr], body: String): Html = 
+        let content = makeHtml(HtmlText(body));
+        makeHtml(HtmlTag("svg", attrs, content))
 
-    pub def href_(s: String): HtmlAttr = HtmlAttr("href", s)
-    pub def type_(s: String): HtmlAttr = HtmlAttr("type", s)
+    pub def charset_(s: String): HtmlAttr = HtmlAttr("charset", s)
+    pub def class_(s: String): HtmlAttr = HtmlAttr("class", s)
     pub def colspan_(s: String): HtmlAttr = HtmlAttr("colspan", s)
+    pub def height_(s: String): HtmlAttr = HtmlAttr("height", s)
+    pub def href_(s: String): HtmlAttr = HtmlAttr("href", s)
+    pub def lang_(s: String): HtmlAttr = HtmlAttr("lang", s)
     pub def rel_(s: String): HtmlAttr = HtmlAttr("rel", s)
+    pub def src_(s: String): HtmlAttr = HtmlAttr("src", s)
+    pub def type_(s: String): HtmlAttr = HtmlAttr("type", s)
+    pub def width_(s: String): HtmlAttr = HtmlAttr("width", s)
+
 
 }
