@@ -16,3 +16,8 @@ def test02(): String =
     tr(colspan_("2") :: Nil, text("...")) |> toString
 
 
+def runTests(): Unit & Impure =
+    test01() |> Console.printLine;
+    test02() |> Console.printLine
+
+
