@@ -132,89 +132,201 @@ namespace Text/HtmlDoc {
     /// See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element
     ///
 
-    pub def html(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("html", attrs, content))
+    pub def html(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("html", attrs, content))
 
     ///
     /// Document metadata
     ///
 
-    pub def base(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("base", attrs, content))    
-    pub def head(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("head", attrs, content))
-    pub def link(attrs: List[HtmlAttr]): Html = makeHtml(HtmlTagNoBody("link", attrs))
-    pub def meta(attrs: List[HtmlAttr]): Html = makeHtml(HtmlTagNoBody("meta", attrs)) 
+    pub def base(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("base", attrs, content))    
+    pub def head(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("head", attrs, content))
+    pub def link(attrs: List[HtmlAttr]): Html                       = makeHtml(HtmlTagNoBody("link", attrs))
+    pub def meta(attrs: List[HtmlAttr]): Html                       = makeHtml(HtmlTagNoBody("meta", attrs)) 
 
     pub def style(attrs: List[HtmlAttr], content: String): Html = 
         let content1 = makeHtml(HtmlText(content));
         makeHtml(HtmlTag("style", attrs, content1))
     
-    pub def title(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("title", attrs, content))
+    pub def title(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("title", attrs, content))
 
     ///
     /// Sectioning root
     ///
-    pub def body(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("body", attrs, content))
+    pub def body(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("body", attrs, content))
 
     ///
     /// Content Sectioning
     ///
 
-    pub def address(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("address", attrs, content))
-    pub def article(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("article", attrs, content))
-    pub def aside(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("aside", attrs, content))
-    pub def footer(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("footer", attrs, content))
-    pub def header(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("header", attrs, content))
+    pub def address(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("address", attrs, content))
+    pub def article(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("article", attrs, content))
+    pub def aside(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("aside", attrs, content))
+    pub def footer(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("footer", attrs, content))
+    pub def header(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("header", attrs, content))
 
-    pub def h1(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h1", attrs, content))
-    pub def h2(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h2", attrs, content))
-    pub def h3(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h3", attrs, content))
-    pub def h4(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h4", attrs, content))
-    pub def h5(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h5", attrs, content))
-    pub def h6(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("h6", attrs, content))
+    pub def h1(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h1", attrs, content))
+    pub def h2(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h2", attrs, content))
+    pub def h3(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h3", attrs, content))
+    pub def h4(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h4", attrs, content))
+    pub def h5(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h5", attrs, content))
+    pub def h6(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("h6", attrs, content))
 
-    pub def hgroup(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("hgroup", attrs, content))
+    pub def hgroup(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("hgroup", attrs, content))
 
-    // name problem <main> ...
+    pub def mainHtml(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("main", attrs, content))
 
-    pub def nav(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("nav", attrs, content))
-    pub def section(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("section", attrs, content))
+    pub def nav(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("nav", attrs, content))
+    pub def section(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("section", attrs, content))
 
     ///
     /// Text content
     ///
-    pub def blockquote(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("blockquote", attrs, content))
-    pub def dd(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("dd", attrs, content))
-    pub def div(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("div", attrs, content))
+    pub def blockquote(attrs: List[HtmlAttr], content: Html): Html  = makeHtml(HtmlTag("blockquote", attrs, content))
+    pub def dd(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("dd", attrs, content))
+    pub def div(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("div", attrs, content))
+    pub def dl(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("dl", attrs, content))
+    pub def dt(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("dt", attrs, content))
+    pub def figcaption(attrs: List[HtmlAttr], content: Html): Html  = makeHtml(HtmlTag("figcaption", attrs, content))
+    pub def figure(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("figure", attrs, content))
+    pub def hr(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("hr", attrs, content))
+    pub def li(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("li", attrs, content))
+    pub def ol(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ol", attrs, content))
+    pub def pHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("p", attrs, content))
+    pub def pre(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("pre", attrs, content))
+    pub def ul(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ul", attrs, content))
 
     ///
     /// Inline text semantics
     ///
-    pub def anchor(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("a", attrs, content))
-    pub def abbr(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("abbr", attrs, content))
-
-
-
-    pub def script(attrs: List[HtmlAttr], content: String): Html = 
-        let content1 = makeHtml(HtmlText(content));
-        makeHtml(HtmlTag("script", attrs, content1))
-
-
+    pub def aHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("a", attrs, content))
+    pub def abbr(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("abbr", attrs, content))
+    pub def bold(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("bold", attrs, content))
+    pub def bdi(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("bdo", attrs, content))
+    pub def bdo(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("bdo", attrs, content))
+    pub def br(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("br", attrs, content))
+    pub def cite(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("cite", attrs, content))
+    pub def code(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("code", attrs, content))
+    pub def data(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("data", attrs, content))
+    pub def dfn(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("dfn", attrs, content))
+    pub def em(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("em", attrs, content))
+    pub def iHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("i", attrs, content))
+    pub def kbd(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("kbd", attrs, content))
+    pub def mark(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("mark", attrs, content))
+    pub def qHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("q", attrs, content))
+    pub def rb(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rt", attrs, content))
+    pub def rp(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rp", attrs, content))
+    pub def rt(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rt", attrs, content))
+    pub def rtc(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("rtc", attrs, content))
+    pub def ruby(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("ruby", attrs, content))
+    pub def sHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("s", attrs, content))
+    pub def samp(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("samp", attrs, content))
+    pub def small(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("small", attrs, content))
+    pub def span(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("span", attrs, content))
+    pub def strong(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("strong", attrs, content))
+    pub def sub(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("sub", attrs, content))
+    pub def sup(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("sup", attrs, content))
+    pub def time(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("time", attrs, content))
+    pub def uHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("u", attrs, content))
+    pub def var(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("var", attrs, content))
+    pub def wbr(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("wbr", attrs, content))
     
-
-    pub def table(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("table", attrs, content))
-
-    pub def tr(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("tr", attrs, content))
-    pub def td(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("td", attrs, content))
-    pub def th(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("th", attrs, content))
- 
-    pub def ol(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("ol", attrs, content))
-    pub def ul(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("ul", attrs, content))
-    pub def li(attrs: List[HtmlAttr], content: Html): Html = makeHtml(HtmlTag("li", attrs, content))
-
+    ///
+    /// Image and multimedia
+    ///
+    
+    pub def area(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("area", attrs, content))
+    pub def audio(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("audio", attrs, content))
+    pub def img(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("img", attrs, content))
+    pub def map(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("map", attrs, content))
     
     pub def svg(attrs: List[HtmlAttr], body: String): Html = 
         let content = makeHtml(HtmlText(body));
         makeHtml(HtmlTag("svg", attrs, content))
 
+    pub def track(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("track", attrs, content))
+    pub def video(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("video", attrs, content))
+
+    ///
+    /// Embdedded content
+    ///
+
+    pub def embed(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("embed", attrs, content))
+    pub def iframe(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("iframe", attrs, content))
+    pub def object(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("object", attrs, content))
+    pub def param(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("param", attrs, content))
+    pub def picture(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("picture", attrs, content))
+    pub def source(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("source", attrs, content))
+
+    ///
+    /// Scripting
+    ///
+
+    pub def canvas(attrs: List[HtmlAttr], fallback: String): Html = 
+        let fallback1 = makeHtml(HtmlText(fallback));
+        makeHtml(HtmlTag("script", attrs, fallback1))
+
+    pub def script(attrs: List[HtmlAttr], content: String): Html = 
+        let content1 = makeHtml(HtmlText(content));
+        makeHtml(HtmlTag("script", attrs, content1))
+
+    pub def noscript(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("noscript", attrs, content))
+    
+    ///
+    /// Demarkating edits
+    ///
+
+    pub def del(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("del", attrs, content))
+    pub def ins(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("ins", attrs, content))
+
+    ///
+    /// Table content
+    ///
+    pub def caption(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("caption", attrs, content))
+    pub def col(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("col", attrs, content))
+    pub def colgroup(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("colgroup", attrs, content))
+    pub def table(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("table", attrs, content))
+    pub def tbody(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("tbody", attrs, content))
+        
+    pub def td(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("td", attrs, content))
+    pub def tfoot(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("tfoot", attrs, content))
+    pub def th(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("th", attrs, content))
+    pub def thead(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("thead", attrs, content))
+    pub def tr(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("tr", attrs, content))
+    
+    ///
+    /// Forms
+    ///
+    
+    pub def button(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("button", attrs, content))
+    pub def datalist(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("datalist", attrs, content))
+    pub def fieldset(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("fieldset", attrs, content))
+    pub def form(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("form", attrs, content))
+    pub def input(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("input", attrs, content))
+    pub def label(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("label", attrs, content))
+    pub def legend(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("legend", attrs, content))
+    pub def meter(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("meter", attrs, content))
+    pub def optgroup(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("optgroup", attrs, content))
+    pub def option(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("option", attrs, content))
+    pub def output(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("output", attrs, content))
+    pub def progress(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("progress", attrs, content))
+    pub def selectHtml(attrs: List[HtmlAttr], content: Html): Html  = makeHtml(HtmlTag("select", attrs, content))
+    pub def textarea(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("textarea", attrs, content))
+
+    /// 
+    /// Interactive elements
+    ///
+    pub def details(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("details", attrs, content))
+    pub def dialog(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("dialog", attrs, content))
+    pub def menu(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("menu", attrs, content))
+    pub def summary(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("summary", attrs, content))
+
+
+    /// 
+    /// Web components
+    ///
+    pub def slot(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("slot", attrs, content))
+    pub def template(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("template", attrs, content))
+    
 
     /// 
     /// Attributes
