@@ -328,25 +328,60 @@ namespace Text/HtmlDoc {
     pub def template(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("template", attrs, content))
     
 
+    def enumTrueOrFalse(x: Bool): String = if (x) "true" else "false"
+    def enumYesOrNo(x: Bool): String = if (x) "yes" else "no"
+
     /// 
-    /// Attributes
+    /// Global attributes
+    /// See: https://html.spec.whatwg.org/dev/dom.html#global-attributes
     ///
 
-    pub def accesskey_(s: String): HtmlAttr     = HtmlAttr("accesskey", s)
-    pub def align_(s: String): HtmlAttr         = HtmlAttr("align", s)
-    pub def alt_(s: String): HtmlAttr           = HtmlAttr("alt", s)
-    pub def charset_(s: String): HtmlAttr       = HtmlAttr("charset", s)
-    pub def class_(s: String): HtmlAttr         = HtmlAttr("class", s)
-    pub def colspan_(s: String): HtmlAttr       = HtmlAttr("colspan", s)
-    pub def height_(s: String): HtmlAttr        = HtmlAttr("height", s)
-    pub def href_(s: String): HtmlAttr          = HtmlAttr("href", s)
-    pub def lang_(s: String): HtmlAttr          = HtmlAttr("lang", s)
-    pub def rel_(s: String): HtmlAttr           = HtmlAttr("rel", s)
-    pub def src_(s: String): HtmlAttr           = HtmlAttr("src", s)
-    pub def tabindex_(i: Int32): HtmlAttr       = HtmlAttr("tabindex", Int32.toString(i))
-    pub def type_(s: String): HtmlAttr          = HtmlAttr("type", s)
-    pub def title_(s: String): HtmlAttr         = HtmlAttr("title", s)
-    pub def width_(s: String): HtmlAttr         = HtmlAttr("width", s)
+
+    pub def accesskey_(s: String): HtmlAttr             = HtmlAttr("accesskey", s)
+    pub def autocapitalize_(s: String): HtmlAttr        = HtmlAttr("autocapitalize", s)
+    pub def autofocus_(): HtmlAttr                      = HtmlAttrEmpty("autofocus")
+    pub def class_(s: String): HtmlAttr                 = HtmlAttr("class", s)
+    pub def contenteditable_(x: Bool): HtmlAttr         = HtmlAttr("contenteditable", enumTrueOrFalse(x))
+    pub def dir_(s: String): HtmlAttr                   = HtmlAttr("dir", s)
+    pub def draggable_(x: Bool): HtmlAttr               = HtmlAttr("draggable", enumTrueOrFalse(x))
+    pub def enterkeyhit_(s: String): HtmlAttr           = HtmlAttr("enterkeyhit", s)
+    pub def hidden_(): HtmlAttr                         = HtmlAttrEmpty("hidden")
+    pub def id_(s: String): HtmlAttr                    = HtmlAttr("id", s)
+    pub def inputmode_(s: String): HtmlAttr             = HtmlAttr("inputmode", s)
+    pub def itemid_(s: String): HtmlAttr                = HtmlAttr("itemid", s)
+    pub def itemprop_(s: String): HtmlAttr              = HtmlAttr("itemprop", s)
+    pub def itemscope_(): HtmlAttr                      = HtmlAttrEmpty("itemscope")
+    pub def lang_(s: String): HtmlAttr                  = HtmlAttr("lang", s)
+    pub def spellcheck_(x: Bool): HtmlAttr              = HtmlAttr("spellcheck", enumTrueOrFalse(x))
+    pub def style_(s: String): HtmlAttr                 = HtmlAttr("style", s)
+    pub def tabindex_(i: Int32): HtmlAttr               = HtmlAttr("tabindex", Int32.toString(i))
+    pub def title_(s: String): HtmlAttr                 = HtmlAttr("title", s)
+    pub def translate_(x: Bool): HtmlAttr               = HtmlAttr("translate", enumYesOrNo(x))
+    
+    /// 
+    /// Other attributes
+    ///
+
+    pub def accept_(s: String): HtmlAttr                = HtmlAttr("accept", s)
+    pub def accept_charset_(s: String): HtmlAttr        = HtmlAttr("accept-charset", s)
+    pub def action_(s: String): HtmlAttr                = HtmlAttr("action", s)
+    pub def align_(s: String): HtmlAttr                 = HtmlAttr("align", s)
+    pub def allow_(s: String): HtmlAttr                 = HtmlAttr("allow", s)
+    pub def alt_(s: String): HtmlAttr                   = HtmlAttr("alt", s)
+    pub def async_(): HtmlAttr                          = HtmlAttrEmpty("async")
+    pub def capture_(s: String): HtmlAttr               = HtmlAttr("capture", s)
+    pub def charset_(s: String): HtmlAttr               = HtmlAttr("charset", s)
+    
+    pub def colspan_(s: String): HtmlAttr               = HtmlAttr("colspan", s)
+    pub def data_(s: String): HtmlAttr                  = HtmlAttr("data", s)
+    pub def disabled_(): HtmlAttr                       = HtmlAttrEmpty("disabled")
+    pub def form_(s: String): HtmlAttr                = HtmlAttr("form", s)
+    pub def height_(s: String): HtmlAttr                = HtmlAttr("height", s)
+    pub def href_(s: String): HtmlAttr                  = HtmlAttr("href", s)
+    pub def rel_(s: String): HtmlAttr                   = HtmlAttr("rel", s)
+    pub def src_(s: String): HtmlAttr                   = HtmlAttr("src", s)
+    pub def type_(s: String): HtmlAttr                  = HtmlAttr("type", s)
+    pub def width_(s: String): HtmlAttr                 = HtmlAttr("width", s)
 
 
 }
