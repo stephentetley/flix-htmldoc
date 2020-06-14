@@ -26,25 +26,26 @@ namespace Text/HtmlDoc/Tree {
 
 
 
-    def collapsibleNode(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
+    def collapsibleNode(printer: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
         let mkAttrs = printer.makeAttrs;
         let mkNode = printer.printNode;
         match node {
             case RoseTree(label, Nil) => { 
                 let ans = li(mkAttrs(label), mkNode(label));
-                ans
+                k(ans)
             }
             case RoseTree(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
-                let kids1 = collapsibleKids(printer, kids);
-                li(Nil, details(open_() :: Nil, ans <&> ul(Nil, kids1)))
+                collapsibleKids(printer, kids, vs -> k(li(Nil, details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))))
             }
         }   
 
-    def collapsibleKids(printer: LabelPrinter[a], nodes: RoseForest[a]): Html = 
-        let elems = List.map(collapsibleNode(printer), nodes);
-        concat(elems)
-
+    def collapsibleKids(printer: LabelPrinter[a], nodes: RoseForest[a], k: List[Html] -> Html): Html = match nodes { 
+        case Nil => k(Nil)
+        case x :: rs => 
+            collapsibleNode(printer, x, v1 -> collapsibleKids(printer, rs, vs -> k(v1 :: vs)))
+    }
+        
 
 
     pub def collapsibleTree(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
@@ -53,8 +54,7 @@ namespace Text/HtmlDoc/Tree {
         match node {
             case RoseTree(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
-                let kids1 = collapsibleKids(printer, kids);
-                details(open_() :: Nil, ans <&> ul(Nil, kids1))
+                collapsibleKids(printer, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
             }
         }
 
