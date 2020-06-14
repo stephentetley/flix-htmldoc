@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang};
+use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang, indent};
 use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
-use Text/PrettyPrint.{<>, <<>>, <!!>};
+use Text/PrettyPrint.{<>, <<>>, <&&>};
     
 namespace Text/HtmlDoc {
     
@@ -51,7 +51,7 @@ namespace Text/HtmlDoc {
 
     pub def writeHtml(width: Int32, path: String, cs: Text.Charset, x: Html): Result[Unit, System.Error] & Impure = 
         use Result.flatMap;
-        let str = prettyPrint(width, ppDocType() <!!> ppHtml(x));
+        let str = prettyPrint(width, ppDocType() <&&> ppHtml(x));
         let path1 = System/FilePath.new(path);
         System/File.writeFile(path1, cs, str)
 
@@ -65,7 +65,7 @@ namespace Text/HtmlDoc {
     def ppHtmlElement(x: HtmlElement): Doc = match x { 
         case HtmlText(s)                => ppText(s)
         case HtmlComment(s)             => ppText("<!--") <<>> ppText(s) <<>> ppText("-->")
-        case HtmlTag(name, attrs, body) => ppOpeningTag(name, attrs) <!!> hang(4, ppHtml(body)) <!!> ppClosingTag(name)
+        case HtmlTag(name, attrs, body) => hang(2, ppOpeningTag(name, attrs) <&&> ppHtml(body)) <&&> ppClosingTag(name)
         case HtmlTagNoBody(name, attrs) => ppOpeningTag(name, attrs)
     }
 
@@ -190,9 +190,11 @@ namespace Text/HtmlDoc {
     pub def figure(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("figure", attrs, content))
     pub def hr(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("hr", attrs, content))
     pub def li(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("li", attrs, content))
+    /// TODO should content be a list?
     pub def ol(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ol", attrs, content))
     pub def pHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("p", attrs, content))
     pub def pre(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("pre", attrs, content))
+    /// TODO should content be a list?
     pub def ul(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ul", attrs, content))
 
     ///

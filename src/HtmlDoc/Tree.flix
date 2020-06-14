@@ -31,13 +31,13 @@ namespace Text/HtmlDoc/Tree {
         let mkNode = printer.printNode;
         match node {
             case RoseTree(label, Nil) => { 
-                let ans = ul(mkAttrs(label), mkNode(label));
+                let ans = li(mkAttrs(label), mkNode(label));
                 ans
             }
             case RoseTree(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
                 let kids1 = collapsibleKids(printer, kids);
-                details(open_() :: Nil, li(Nil, ans <&> kids1))
+                li(Nil, details(open_() :: Nil, ans <&> ul(Nil, kids1)))
             }
         }   
 
@@ -48,6 +48,14 @@ namespace Text/HtmlDoc/Tree {
 
 
     pub def collapsibleTree(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
-        collapsibleNode(printer, node)
+        let mkAttrs = printer.makeAttrs;
+        let mkNode = printer.printNode;
+        match node {
+            case RoseTree(label, kids) => { 
+                let ans = summary(mkAttrs(label), mkNode(label));
+                let kids1 = collapsibleKids(printer, kids);
+                details(open_() :: Nil, ans <&> ul(Nil, kids1))
+            }
+        }
 
 }

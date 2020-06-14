@@ -3,7 +3,7 @@ use Data.RoseTree.{RoseTree};
 use Data/RoseTree.{Forest};
 
 use Text/HtmlDoc.{Html};
-use Text/HtmlDoc.{html, head, meta, title, body, text, toString, lang_, charset_};
+use Text/HtmlDoc.{writeHtml, html, head, meta, title, body, text, toString, lang_, charset_};
 use Text/HtmlDoc.{<&>};
 
 def leaf(s: String): RoseTree[String] = RoseTree(s, Nil)
@@ -21,8 +21,9 @@ def makeDoc(content: Html): Html =
         <&> body(Nil, content)
     )
 
-def main(): Unit & Impure =
+def main(): Result[Unit, System.Error] & Impure =
     let printer = { makeAttrs= _ -> Nil, printNode = s -> text(s) };
     let tree = Text/HtmlDoc/Tree.collapsibleTree(printer,  tree01());
-    toString(makeDoc(tree)) |> Console.printLine
+    let doc = makeDoc(tree);
+    writeHtml(160, "e:/coding/flix/flix-htmldoc/output/Tree.html", Text/Charset.utf_8(), doc)
     
