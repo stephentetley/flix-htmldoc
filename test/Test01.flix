@@ -16,8 +16,12 @@ def test02(): String =
     tr(colspan_("2") :: Nil, text("...")) |> toString
 
 
-def runTests(): Unit & Impure =
+pub def runTests(): Unit & Impure =
     test01() |> Console.printLine;
     test02() |> Console.printLine
 
 
+pub def tree01(): Unit & Impure =
+    let tree = Text/HtmlDoc/Tree.collapsibleTree();
+    toString(tree) |> Console.printLine
+    

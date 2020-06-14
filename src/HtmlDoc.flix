@@ -360,7 +360,7 @@ namespace Text/HtmlDoc {
     
     /// 
     /// Other attributes
-    ///
+    /// TODO - see https://html.spec.whatwg.org/multipage/indices.html#attributes-3
 
     pub def accept_(s: String): HtmlAttr                = HtmlAttr("accept", s)
     pub def accept_charset_(s: String): HtmlAttr        = HtmlAttr("accept-charset", s)
@@ -375,9 +375,10 @@ namespace Text/HtmlDoc {
     pub def colspan_(s: String): HtmlAttr               = HtmlAttr("colspan", s)
     pub def data_(s: String): HtmlAttr                  = HtmlAttr("data", s)
     pub def disabled_(): HtmlAttr                       = HtmlAttrEmpty("disabled")
-    pub def form_(s: String): HtmlAttr                = HtmlAttr("form", s)
+    pub def form_(s: String): HtmlAttr                  = HtmlAttr("form", s)
     pub def height_(s: String): HtmlAttr                = HtmlAttr("height", s)
     pub def href_(s: String): HtmlAttr                  = HtmlAttr("href", s)
+    pub def open_(): HtmlAttr                           = HtmlAttrEmpty("open")
     pub def rel_(s: String): HtmlAttr                   = HtmlAttr("rel", s)
     pub def src_(s: String): HtmlAttr                   = HtmlAttr("src", s)
     pub def type_(s: String): HtmlAttr                  = HtmlAttr("type", s)
