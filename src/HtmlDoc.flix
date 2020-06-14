@@ -41,32 +41,37 @@ namespace Text/HtmlDoc {
     /// Potentially we need a "no-pretty" version for speed.
 
 
-    pub def toString(x: Html): String = outputHtml(80, x)
+    pub def toString(x: Html): String = outputHtml(120, x)
 
     pub def outputHtml(width: Int32, x: Html): String = 
-        prettyPrint(width, ppHtml(x))
+        prettyPrint(width, ppHtml(x, identity))
 
     pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
-        prettyPrint!(sb, width, ppHtml(x))
+        prettyPrint!(sb, width, ppHtml(x, identity))
 
     pub def writeHtml(width: Int32, path: String, cs: Text.Charset, x: Html): Result[Unit, System.Error] & Impure = 
         use Result.flatMap;
-        let str = prettyPrint(width, ppDocType() <&&> ppHtml(x));
+        let str = prettyPrint(width, ppDocType() <&&> ppHtml(x, identity));
         let path1 = System/FilePath.new(path);
         System/File.writeFile(path1, cs, str)
 
 
-    def ppHtml(x: Html): Doc = 
+    def ppHtml(x: Html, k: Doc -> Doc): Doc = 
         let Html(f) = x;
-        let xs = List.map(ppHtmlElement, f(Nil));
-        vcat(xs)
+        ppHtmlElements(f(Nil), xs -> k(vcat(xs)))
 
     /// TODO - CPS?
-    def ppHtmlElement(x: HtmlElement): Doc = match x { 
-        case HtmlText(s)                => ppText(s)
-        case HtmlComment(s)             => ppText("<!--") <<>> ppText(s) <<>> ppText("-->")
-        case HtmlTag(name, attrs, body) => hang(2, ppOpeningTag(name, attrs) <&&> ppHtml(body)) <&&> ppClosingTag(name)
-        case HtmlTagNoBody(name, attrs) => ppOpeningTag(name, attrs)
+    def ppHtmlElement(x: HtmlElement, k: Doc -> Doc): Doc = match x { 
+        case HtmlText(s)                => k(ppText(s))
+        case HtmlComment(s)             => k(ppText("<!--") <<>> ppText(s) <<>> ppText("-->"))
+        case HtmlTag(name, attrs, body) => 
+            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <&&> v1) <&&> ppClosingTag(name)))
+        case HtmlTagNoBody(name, attrs) => k(ppOpeningTag(name, attrs))
+    }
+
+    def ppHtmlElements(xs: List[HtmlElement], k: List[Doc] -> Doc): Doc = match xs { 
+        case Nil => k(Nil)
+        case x :: rs => ppHtmlElement(x, v1 -> ppHtmlElements(rs, vs -> k(v1 :: vs)))
     }
 
     def ppOpeningTag(name: String, attrs: List[HtmlAttr]): Doc = match attrs {
@@ -190,11 +195,9 @@ namespace Text/HtmlDoc {
     pub def figure(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("figure", attrs, content))
     pub def hr(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("hr", attrs, content))
     pub def li(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("li", attrs, content))
-    /// TODO should content be a list?
     pub def ol(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ol", attrs, content))
     pub def pHtml(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("p", attrs, content))
     pub def pre(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("pre", attrs, content))
-    /// TODO should content be a list?
     pub def ul(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("ul", attrs, content))
 
     ///

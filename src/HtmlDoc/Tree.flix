@@ -58,4 +58,6 @@ namespace Text/HtmlDoc/Tree {
             }
         }
 
+    // TODO - printer for static tree that doesn't use `summary` and `details`.
+
 }
