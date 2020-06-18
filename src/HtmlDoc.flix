@@ -205,7 +205,7 @@ namespace Text/HtmlDoc {
     ///
     pub def anchor(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("a", attrs, content))
     pub def abbr(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("abbr", attrs, content))
-    pub def bold(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("bold", attrs, content))
+    pub def bold(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("b", attrs, content))
     pub def bdi(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("bdo", attrs, content))
     pub def bdo(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("bdo", attrs, content))
     pub def br(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("br", attrs, content))
