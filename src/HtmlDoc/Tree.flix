@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-use Data.{RoseTree, RoseForest};
-use Data.RoseTree.{RoseTree};
-use Data/RoseTree.{Forest};
-use Text/HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
-use Text/HtmlDoc.{<&>};
 
 namespace Text/HtmlDoc/Tree {
 
     
+    use Data.{RoseTree, RoseForest};
+    use Data.RoseTree.{RoseTree};
+    use Data/RoseTree.{Forest};
+    use Text/HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
+    use Text/HtmlDoc.{<&>};
+
     type alias LabelPrinter[a] = { makeAttrs: a -> List[HtmlAttr], printNode: a -> Html}
 
 
+    pub def collapsibleTree(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
+        let mkAttrs = printer.makeAttrs;
+        let mkNode = printer.printNode;
+        match node {
+            case RoseTree(label, kids) => { 
+                let ans = summary(mkAttrs(label), mkNode(label));
+                collapsibleKids(printer, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
+            }
+        }
 
     def collapsibleNode(printer: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
         let mkAttrs = printer.makeAttrs;
@@ -48,18 +58,18 @@ namespace Text/HtmlDoc/Tree {
     }
         
 
+    /// Version with custom printers for nodes with children and leaves (without children).
 
-    pub def collapsibleTree(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
-        let mkAttrs = printer.makeAttrs;
-        let mkNode = printer.printNode;
+    pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a]): Html = 
         match node {
             case RoseTree(label, kids) => { 
+                let mkAttrs = nodePrinter.makeAttrs;
+                let mkNode = nodePrinter.printNode;        
                 let ans = summary(mkAttrs(label), mkNode(label));
-                collapsibleKids(printer, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
+                collapsibleKids2(nodePrinter, leafPrinter, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
             }
         }
 
-    /// Version with custom printers for nodes with children and leaves (without children).
 
     def collapsibleNode2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
         match node {
@@ -82,18 +92,6 @@ namespace Text/HtmlDoc/Tree {
         case x :: rs => 
             collapsibleNode2(nodePrinter, leafPrinter, x, v1 -> collapsibleKids2(nodePrinter, leafPrinter, rs, vs -> k(v1 :: vs)))
     }
-        
-
-
-    pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a]): Html = 
-        match node {
-            case RoseTree(label, kids) => { 
-                let mkAttrs = nodePrinter.makeAttrs;
-                let mkNode = nodePrinter.printNode;        
-                let ans = summary(mkAttrs(label), mkNode(label));
-                collapsibleKids2(nodePrinter, leafPrinter, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
-            }
-        }
 
     // TODO - printer for static tree that doesn't use `summary` and `details`.
 

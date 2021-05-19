@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang, indent};
-use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
-use Text/PrettyPrint.{<>, <<>>, <&&>};
     
 namespace Text/HtmlDoc {
-    
+
+    use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang, indent};
+    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
+    use Text/PrettyPrint.{<>, <<>>, <&&>};
+
     /// TODO - probably shouldn't be exposed...
     /// Do we need a `Raw` element for `script` and `svg` content?
     pub enum HtmlElement {
