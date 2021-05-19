@@ -49,11 +49,10 @@ namespace Text/HtmlDoc {
     pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
         prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml(width: Int32, path: String, cs: Text.Charset, x: Html): Result[Unit, System.Error] & Impure = 
+    pub def writeHtml(width: Int32, path: System.FilePath, cs: Text.Charset, x: Html): Result[Unit, String] & Impure = 
         use Result.flatMap;
         let str = prettyPrint(width, ppDocType() <&&> ppHtml(x, identity));
-        let path1 = System/FilePath.new(path);
-        System/File.writeFile(path1, cs, str)
+        System/File.writeFile(path, cs, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
