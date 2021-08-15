@@ -17,7 +17,9 @@
     
 namespace Text/HtmlDoc {
 
-    use Text/PrettyPrint.{Doc, prettyPrint, prettyPrint!, vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, dquotes, hang, indent};
+    use Text/PrettyPrint.{Doc, render, prettyPrint!, 
+        vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, 
+        dquotes, hang};
     use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
     use Text/PrettyPrint.{<>, <<>>, <&&>};
 
@@ -45,15 +47,16 @@ namespace Text/HtmlDoc {
     pub def toString(x: Html): String = outputHtml(120, x)
 
     pub def outputHtml(width: Int32, x: Html): String = 
-        prettyPrint(width, ppHtml(x, identity))
+        render(width, ppHtml(x, identity))
 
-    pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
-        prettyPrint!(sb, width, ppHtml(x, identity))
+    /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
+    ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
     pub def writeHtml(width: Int32, path: System.FilePath, cs: Text.Charset, x: Html): Result[Unit, String] & Impure = 
         use Result.flatMap;
-        let str = prettyPrint(width, ppDocType() <&&> ppHtml(x, identity));
-        System/File.writeFile(path, cs, str)
+        use System/IO.WriteMode.Create;
+        let str = render(width, ppDocType() <&&> ppHtml(x, identity));
+        System/IO.writeFileWith({path = path, charset = cs, mode = Create}, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 

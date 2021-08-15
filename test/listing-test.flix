@@ -6,14 +6,23 @@ use Text/HtmlDoc.{writeHtml, concat, html, head, meta, title, body, paragraph, t
 use Text/HtmlDoc.{<&>};
 use Text/HtmlDoc/Tree.{LabelPrinter, collapsibleTree2};
 
-def main(): Result[Unit, System.Error] & Impure = 
+def main(_args: Array[String]): Int32 & Impure = 
+    match main1() {
+        case Ok() => Console.printLine("Okay.")
+        case Err(msg) => Console.printLine("Error: ${msg}")
+    };
+    0
+
+
+def main1(): Result[Unit, String] & Impure = 
     use Result.{flatMap};
     use Data/RoseTree.{drawTree};
     let tree1 = toRoseTree(flixBasicDb());
     Console.printLine(drawTree(tree1)); 
     let htmltree = paragraph(Nil, collapsibleTree2(nodePrinter(), leafPrinter(), tree1));
     let doc = makeDoc(htmltree);
-    writeHtml(160, "E://coding/flix/flix-htmldoc/output/dirtree.html", Text/Charset.utf_8(), doc)
+    let outpath = System/FilePath.new("E://coding/flix/flix-htmldoc/output/dirtree.html");
+    writeHtml(160, outpath, Text/Charset.utf_8(), doc)
 
 
 enum FileObject {
