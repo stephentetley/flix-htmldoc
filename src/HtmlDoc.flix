@@ -19,9 +19,9 @@ namespace Text/HtmlDoc {
 
     use Text/PrettyPrint.{Doc, render, prettyPrint!, 
         vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, 
-        dquotes, hang};
-    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace};
-    use Text/PrettyPrint.{<>, <<>>, <&&>};
+        dquotes, group, hang};
+    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty};
+    use Text/PrettyPrint.{<>, <<>>, <&&>, <!>};
 
     /// TODO - probably shouldn't be exposed...
     /// Do we need a `Raw` element for `script` and `svg` content?
@@ -68,7 +68,7 @@ namespace Text/HtmlDoc {
         case HtmlText(s)                => k(ppText(s))
         case HtmlComment(s)             => k(ppText("<!--") <<>> ppText(s) <<>> ppText("-->"))
         case HtmlTag(name, attrs, body) => 
-            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <&&> v1) <&&> ppClosingTag(name)))
+            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <!> v1) <!> ppClosingTag(name)))
         case HtmlTagNoBody(name, attrs) => k(ppOpeningTag(name, attrs))
     }
 
@@ -79,14 +79,14 @@ namespace Text/HtmlDoc {
 
     def ppOpeningTag(name: String, attrs: List[HtmlAttr]): Doc = match attrs {
         case Nil => ppText("<" + name + ">")
-        case _ => encloseSep(ppText("<" + name + " "), ppChar('>'), ppSpace(), List.map(ppAttr, attrs))
+        case _ => group(encloseSep(ppText("<" + name + " "), ppChar('>'), ppEmpty(), List.map(ppAttr, attrs)))
     }
 
     def ppClosingTag(name: String): Doc = ppText("</" + name + ">")
 
     // TODO - check for double quotes in value, if present use single quotes... 
     def ppAttr (attr: HtmlAttr): Doc = match attr {
-        case HtmlAttr(name, value)  => ppText(name) <> ppChar('=') <> dquotes(ppText(value))
+        case HtmlAttr(name, value)  => group(ppText(name) <> ppChar('=') <> dquotes(ppText(value)))
         case HtmlAttrBoolean(name)  => ppText(name)
     }
 

@@ -7,6 +7,7 @@ use Text/HtmlDoc.{<&>};
 use Text/HtmlDoc/Tree.{LabelPrinter, collapsibleTree2};
 
 def main(_args: Array[String]): Int32 & Impure = 
+    Console.printLine("Running...");
     match main1() {
         case Ok() => Console.printLine("Okay.")
         case Err(msg) => Console.printLine("Error: ${msg}")
