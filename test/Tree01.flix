@@ -1,13 +1,13 @@
 use Data.{RoseTree, RoseForest};
-use Data.RoseTree.{RoseTree};
-use Data/RoseTree.{Forest};
+use Data.RoseTree.{Node};
+
 
 use Text/HtmlDoc.{Html};
 use Text/HtmlDoc.{writeHtml, html, head, meta, title, body, text, toString, lang_, charset_};
 use Text/HtmlDoc.{<&>};
 
-def leaf(s: String): RoseTree[String] = RoseTree(s, Nil)
-def node(s: String, kids: RoseForest[String]): RoseTree[String] = RoseTree(s, kids)
+def leaf(s: String): RoseTree[String] = Node(s, Nil)
+def node(s: String, kids: RoseForest[String]): RoseTree[String] = Node(s, kids)
 
 def tree01(): RoseTree[String] = 
     node("root", leaf("item1") :: node("item2", leaf("item2.1") :: leaf("item2.2") :: Nil) :: Nil)

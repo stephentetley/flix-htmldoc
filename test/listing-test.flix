@@ -1,5 +1,5 @@
 use Data.RoseTree;
-use Data.RoseTree.{RoseTree};
+use Data.RoseTree.{Node};
 use Text/HtmlDoc.{Html};
 use Text/HtmlDoc.{writeHtml, concat, html, head, meta, title, body, paragraph, text, link, div, toString, 
     lang_, charset_, class_, rel_, href_, type_, media_};
@@ -53,8 +53,8 @@ def flixBasicDb(): FileObject =
 def toRoseTree(x: FileObject): RoseTree[String] = toRoseTreeHelper(x, k -> k)
 
 def toRoseTreeHelper(x: FileObject, k: RoseTree[String] -> RoseTree[String]): RoseTree[String] = match x { 
-    case File(name) => k(RoseTree(name, Nil))
-    case Directory(name, kids) => toRoseTreeListHelper(kids, vs -> k(RoseTree(name, vs)))
+    case File(name) => k(Node(name, Nil))
+    case Directory(name, kids) => toRoseTreeListHelper(kids, vs -> k(Node(name, vs)))
 }
 
 def toRoseTreeListHelper(xs: List[FileObject], k: List[RoseTree[String]] -> RoseTree[String]): RoseTree[String] = match xs { 

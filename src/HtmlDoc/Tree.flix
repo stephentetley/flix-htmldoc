@@ -19,7 +19,7 @@ namespace Text/HtmlDoc/Tree {
 
     
     use Data.{RoseTree, RoseForest};
-    use Data.RoseTree.{RoseTree};
+    use Data.RoseTree.{Node};
     use Data/RoseTree.{Forest};
     use Text/HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
     use Text/HtmlDoc.{<&>};
@@ -34,7 +34,7 @@ namespace Text/HtmlDoc/Tree {
         let mkAttrs = printer.makeAttrs;
         let mkNode = printer.printNode;
         match node {
-            case RoseTree(label, kids) => { 
+            case Node(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
                 collapsibleKids(printer, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
             }
@@ -44,11 +44,11 @@ namespace Text/HtmlDoc/Tree {
         let mkAttrs = printer.makeAttrs;
         let mkNode = printer.printNode;
         match node {
-            case RoseTree(label, Nil) => { 
+            case Node(label, Nil) => { 
                 let ans = li(mkAttrs(label), mkNode(label));
                 k(ans)
             }
-            case RoseTree(label, kids) => { 
+            case Node(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
                 collapsibleKids(printer, kids, vs -> k(li(Nil, details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))))
             }
@@ -65,7 +65,7 @@ namespace Text/HtmlDoc/Tree {
 
     pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a]): Html = 
         match node {
-            case RoseTree(label, kids) => { 
+            case Node(label, kids) => { 
                 let mkAttrs = nodePrinter.makeAttrs;
                 let mkNode = nodePrinter.printNode;        
                 let ans = summary(mkAttrs(label), mkNode(label));
@@ -76,13 +76,13 @@ namespace Text/HtmlDoc/Tree {
 
     def collapsibleNode2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
         match node {
-            case RoseTree(label, Nil) => { 
+            case Node(label, Nil) => { 
                 let mkAttrs = leafPrinter.makeAttrs;
                 let mkNode = leafPrinter.printNode;        
                 let ans = li(mkAttrs(label), mkNode(label));
                 k(ans)
             }
-            case RoseTree(label, kids) => { 
+            case Node(label, kids) => { 
                 let mkAttrs = nodePrinter.makeAttrs;
                 let mkNode = nodePrinter.printNode;    
                 let ans = summary(mkAttrs(label), mkNode(label));
