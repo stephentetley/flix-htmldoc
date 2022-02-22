@@ -109,7 +109,7 @@ namespace Text/HtmlDoc {
         case '&'        => StringBuilder.appendString!(sb, "&amp;")
         case '"'        => StringBuilder.appendString!(sb, "&quot;")
         case '\u00A0'   => StringBuilder.appendString!(sb, "&nbsp;")
-        case _          => StringBuilder.appendChar!(sb, c)
+        case _          => StringBuilder.append!(sb, c)
     }
 
 
