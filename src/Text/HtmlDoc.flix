@@ -79,7 +79,7 @@ namespace Text/HtmlDoc {
 
     def ppOpeningTag(name: String, attrs: List[HtmlAttr]): Doc = match attrs {
         case Nil => ppText("<" + name + ">")
-        case _ => group(encloseSep(ppText("<" + name), ppChar('>'), ppEmpty(), List.map(ppAttr, attrs)))
+        case _   => group(encloseSep(ppText("<" + name), ppChar('>'), ppEmpty(), List.map(ppAttr, attrs)))
     }
 
     def ppClosingTag(name: String): Doc = ppText("</" + name + ">")
@@ -104,12 +104,12 @@ namespace Text/HtmlDoc {
 
 
     def escapeHtmlChar(sb: StringBuilder, c: Char): Unit & Impure = match c { 
-        case '<'        => StringBuilder.appendString!(sb, "&lt;")
-        case '>'        => StringBuilder.appendString!(sb, "&gt;")
-        case '&'        => StringBuilder.appendString!(sb, "&amp;")
-        case '"'        => StringBuilder.appendString!(sb, "&quot;")
-        case '\u00A0'   => StringBuilder.appendString!(sb, "&nbsp;")
-        case _          => StringBuilder.append!(sb, c)
+        case '<'        => StringBuilder.appendString!("&lt;", sb)
+        case '>'        => StringBuilder.appendString!("&gt;", sb)
+        case '&'        => StringBuilder.appendString!("&amp;", sb)
+        case '"'        => StringBuilder.appendString!("&quot;", sb)
+        case '\u00A0'   => StringBuilder.appendString!("&nbsp;", sb)
+        case _          => StringBuilder.append!(c, sb)
     }
 
 
