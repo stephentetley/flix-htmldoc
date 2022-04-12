@@ -18,9 +18,9 @@
 namespace Text/HtmlDoc/Tree {
 
     
-    use Data.{RoseTree, RoseForest};
-    use Data.RoseTree.{Node};
-    use Data/RoseTree.{Forest};
+    use FlixSandbox.{RoseTree, RoseForest};
+    use FlixSandbox.RoseTree.{Node};
+    use FlixSandbox.RoseTree.{Forest};
     use Text/HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
     use Text/HtmlDoc.{<&>};
 

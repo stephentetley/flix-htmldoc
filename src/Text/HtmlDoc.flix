@@ -52,11 +52,11 @@ namespace Text/HtmlDoc {
     /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
     ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml(width: Int32, path: System.FilePath, cs: Text.Charset, x: Html): Result[Unit, String] & Impure = 
+    pub def writeHtml(width: Int32, path: FlixSandbox/System.FilePath, cs: FlixSandbox/Text.Charset, x: Html): Result[Unit, String] & Impure = 
         use Result.flatMap;
-        use System/IO.WriteMode.Create;
+        use FlixSandbox/System/IO.WriteMode.Create;
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
-        System/IO.writeFileWith({path = path, charset = cs, mode = Create}, str)
+        FlixSandbox/System/IO.writeFileWith({path = path, charset = cs, mode = Create}, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
