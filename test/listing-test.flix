@@ -17,7 +17,7 @@ namespace ListingTest {
         Console.printLine(drawTree(tree1)); 
         let htmltree = paragraph(Nil, collapsibleTree2(nodePrinter(), leafPrinter(), tree1));
         let doc = makeDoc(htmltree);
-        let outpath = FlixSandbox/System/FilePath.new("E://coding/flix/flix-htmldoc/output/dirtree.html");
+        let outpath = FlixSandbox/System/FilePath.filePath("E://coding/flix/flix-htmldoc/output/dirtree.html");
         writeHtml(160, outpath, FlixSandbox/Text/Charset.utf_8(), doc)
 
 
