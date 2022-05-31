@@ -95,15 +95,14 @@ namespace Text/HtmlDoc {
     ///
     /// Returns string `s` with all occurences of HTML special characters replaced.
     ///
-    def escapeHtml(s: String): String = escapeHtmlHelper(s) as & Pure
+    def escapeHtml(s: String): String =
+        region r {
+            let sb = new StringBuilder(r);
+            String.foldLeft((_,c) -> escapeHtmlChar(sb,c), (), s);
+            StringBuilder.toString(sb)
+        }
 
-    def escapeHtmlHelper(s: String): String & Impure = 
-        let sb = StringBuilder.new();
-        String.foldLeft((_,c) -> escapeHtmlChar(sb,c), (), s);
-        StringBuilder.toString(sb)
-
-
-    def escapeHtmlChar(sb: StringBuilder, c: Char): Unit & Impure = match c { 
+    def escapeHtmlChar(sb: StringBuilder[r], c: Char): Unit \Write(r) = match c { 
         case '<'        => StringBuilder.appendString!("&lt;", sb)
         case '>'        => StringBuilder.appendString!("&gt;", sb)
         case '&'        => StringBuilder.appendString!("&amp;", sb)
