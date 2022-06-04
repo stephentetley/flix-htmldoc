@@ -38,7 +38,7 @@ namespace Text/HtmlDoc {
     }
 
 
-    pub opaque type Html = List[HtmlElement] -> List[HtmlElement]
+    pub enum Html(List[HtmlElement] -> List[HtmlElement])
 
 
     /// Potentially we need a "no-pretty" version for speed.
