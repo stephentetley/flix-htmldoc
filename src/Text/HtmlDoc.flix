@@ -124,12 +124,12 @@ namespace Text/HtmlDoc {
     pub def <&>(x: Html, y: Html): Html = append(x, y)
 
     pub def concat(xs: List[Html]): Html = match xs { 
-        case Nil => Html(xs -> xs)
+        case Nil     => Html(ks -> ks)
         case x :: rs => concatHelper(rs, x)
     }
 
     pub def concatHelper(xs: List[Html], ac: Html): Html = match xs {
-        case Nil => ac
+        case Nil     => ac
         case x :: rs => concatHelper(rs, ac <&> x)
     }
 
