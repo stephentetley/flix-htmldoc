@@ -23,6 +23,9 @@ namespace Text/HtmlDoc {
     use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty};
     use Text/PrettyPrint.{<>, <<>>, <&&>, <!>};
 
+    /// Convention use X suffix to avoid nameclashes e.g. objectX
+
+
     /// TODO - probably shouldn't be exposed...
     /// Do we need a `Raw` element for `script` and `svg` content?
     pub enum HtmlElement {
@@ -259,7 +262,7 @@ namespace Text/HtmlDoc {
 
     pub def embed(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("embed", attrs, content))
     pub def iframe(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("iframe", attrs, content))
-    pub def object(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("object", attrs, content))
+    pub def objectX(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("object", attrs, content))
     pub def param(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("param", attrs, content))
     pub def picture(attrs: List[HtmlAttr], content: Html): Html     = makeHtml(HtmlTag("picture", attrs, content))
     pub def source(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("source", attrs, content))
