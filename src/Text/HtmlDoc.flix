@@ -55,7 +55,7 @@ namespace Text/HtmlDoc {
     /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
     ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml(width: Int32, path: FlixSandbox/System.FilePath, cs: FlixSandbox/Text.Charset, x: Html): Result[Unit, String] & Impure = 
+    pub def writeHtml(width: Int32, path: FlixSandbox/System.FilePath, cs: Text.Charset, x: Html): Result[Unit, String] & Impure = 
         use Result.flatMap;
         use FlixSandbox/System/IO.WriteMode.Create;
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
