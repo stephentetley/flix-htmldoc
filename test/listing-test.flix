@@ -1,8 +1,8 @@
 
 namespace ListingTest {
 
-    use FlixSandbox.RoseTree;
-    use FlixSandbox.RoseTree.{Node};
+    use DataLib.RoseTree;
+    use DataLib.RoseTree.{Node};
     use Text/HtmlDoc.{Html};
     use Text/HtmlDoc.{writeHtml, concat, html, head, meta, title, body, paragraph, text, link, div, toString, 
         lang_, charset_, class_, rel_, href_, type_, media_};
@@ -12,13 +12,13 @@ namespace ListingTest {
     @test
     def test01(): Result[Unit, String] & Impure = 
         use Result.{flatMap};
-        use FlixSandbox/RoseTree.{drawTree};
+        use DataLib/RoseTree.{drawTree};
         let tree1 = toRoseTree(flixBasicDb());
         Console.printLine(drawTree(tree1)); 
         let htmltree = paragraph(Nil, collapsibleTree2(nodePrinter(), leafPrinter(), tree1));
         let doc = makeDoc(htmltree);
-        let outpath = Interop/System/FilePath.filePath("E://coding/flix/flix-htmldoc/output/dirtree.html");
-        writeHtml(160, outpath, Interop/Text/Charset.utf_8(), doc)
+        let* outpath = Basis/System/FilePath.filePath("E://coding/flix/flix-htmldoc/output/dirtree.html");
+        writeHtml(160, outpath, Basis/Text/Charset.utf_8(), doc)
 
 
     enum FileObject {

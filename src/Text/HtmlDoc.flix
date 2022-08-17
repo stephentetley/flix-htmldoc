@@ -17,8 +17,8 @@
     
 namespace Text/HtmlDoc {
 
-    use Interop/System.FilePath;
-    use Interop/Text.Charset;
+    use Basis/System.FilePath;
+    use Basis/Text.Charset;
     
     use Text/PrettyPrint.{Doc, render, prettyPrint!, 
         vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, 
@@ -60,9 +60,9 @@ namespace Text/HtmlDoc {
 
     pub def writeHtml(width: Int32, path: FilePath, cs: Charset, x: Html): Result[Unit, String] & Impure = 
         use Result.flatMap;
-        use FlixSandbox/System/IO.WriteMode.Create;
+        let opts = Basis/System/StandardOpenOption/StandardOpenOption.Create :: Nil;
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
-        FlixSandbox/System/IO.writeFileWith({path = path, charset = cs, mode = Create}, str)
+        Basis/System/Files.writeStringWithCharset(path, cs, opts, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
