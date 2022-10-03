@@ -4,7 +4,7 @@ namespace ListingTest {
     use DataLib.RoseTree;
     use DataLib.RoseTree.{Node};
     use Text/HtmlDoc.{Html};
-    use Text/HtmlDoc.{writeHtml, concat, html, head, meta, title, body, paragraph, text, link, div, toString, 
+    use Text/HtmlDoc.{writeHtml!, concat, html, head, meta, title, body, paragraph, text, link, div, toString, 
         lang_, charset_, class_, rel_, href_, type_, media_};
     use Text/HtmlDoc.{<&>};
     use Text/HtmlDoc/Tree.{LabelPrinter, collapsibleTree2};
@@ -17,8 +17,8 @@ namespace ListingTest {
         Console.printLine(drawTree(tree1)); 
         let htmltree = paragraph(Nil, collapsibleTree2(nodePrinter(), leafPrinter(), tree1));
         let doc = makeDoc(htmltree);
-        let* outpath = Basis/System/FilePath.filePath("E://coding/flix/flix-htmldoc/output/dirtree.html");
-        writeHtml(160, outpath, Basis/Text/Charset.utf_8(), doc)
+        let* outpath = Basis/NIO/File/Path.newPath("E://coding/flix/flix-htmldoc/output/dirtree.html");
+        writeHtml!(160, outpath, Basis/NIO/Charset/Charset.utf_8(), doc)
 
 
     enum FileObject {

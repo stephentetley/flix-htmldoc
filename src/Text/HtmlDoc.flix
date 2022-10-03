@@ -17,8 +17,8 @@
     
 namespace Text/HtmlDoc {
 
-    use Basis/System.FilePath;
-    use Basis/Text.Charset;
+    use Basis/NIO/File.Path;
+    use Basis/NIO/Charset.Charset;
     
     use Text/PrettyPrint.{Doc, render, prettyPrint!, 
         vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, 
@@ -58,11 +58,11 @@ namespace Text/HtmlDoc {
     /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
     ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml(width: Int32, path: FilePath, cs: Charset, x: Html): Result[Unit, String] & Impure = 
+    pub def writeHtml!(width: Int32, path: Path, cs: Charset, x: Html): Result[Unit, String] \ IO = 
         use Result.flatMap;
-        let opts = Basis/System/StandardOpenOption/StandardOpenOption.Create :: Nil;
+        let opts = Basis/NIO/File/StandardOpenOption/StandardOpenOption.Create :: Nil;
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
-        Basis/System/Files.writeStringWithCharset(path, cs, opts, str)
+        Basis/NIO/File/Files.writeStringWithCharset!(path, cs, opts, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
