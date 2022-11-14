@@ -60,7 +60,7 @@ namespace Text/HtmlDoc {
 
     pub def writeHtml!(width: Int32, path: Path, cs: Charset, x: Html): Result[Unit, String] \ IO = 
         use Result.flatMap;
-        let opts = Basis/NIO/File/StandardOpenOption/StandardOpenOption.Create :: Nil;
+        let opts = List.map(Basis/NIO/File/StandardOpenOption.toOpenOption, Basis/NIO/File/StandardOpenOption/StandardOpenOption.Create :: Nil);
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
         Basis/NIO/File/Files.writeStringWithCharset!(path, cs, opts, str)
 

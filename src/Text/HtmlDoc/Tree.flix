@@ -25,8 +25,8 @@ namespace Text/HtmlDoc/Tree {
     use Text/HtmlDoc.{<&>};
 
     pub type alias LabelPrinter[a] = 
-        { makeAttrs :: a -> List[HtmlAttr]
-        , printNode :: a -> Html
+        { makeAttrs = a -> List[HtmlAttr]
+        , printNode = a -> Html
         }
 
 
