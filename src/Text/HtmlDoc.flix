@@ -20,8 +20,8 @@ namespace Text/HtmlDoc {
     use Basis/NIO/File.Path;
     use Basis/NIO/Charset.Charset;
     
-    use Text/PrettyPrint.{Doc, render, prettyPrint!, 
-        vcat, fillCat, besideSpace, beside, besideSoftbreak, encloseSep, 
+    use Text/PrettyPrint.{Doc, render, 
+        vcat, besideSpace, beside, encloseSep, 
         dquotes, group, hang};
     use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty};
     use Text/PrettyPrint.{<>, <<>>, <&&>, <!>};
