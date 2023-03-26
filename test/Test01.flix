@@ -20,12 +20,7 @@ namespace Test01 {
 
 
     pub def runTests(): Unit & Impure =
-        test01() |> Console.printLine;
-        test02() |> Console.printLine
-
-
-    /// pub def tree01(): Unit & Impure =
-    ///     let tree = Text/HtmlDoc/Tree.collapsibleTree();
-    ///     toString(tree) |> Console.printLine
+        test01() |> println;
+        test02() |> println
         
 }

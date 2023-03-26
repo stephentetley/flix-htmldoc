@@ -17,14 +17,25 @@
     
 namespace Text/HtmlDoc {
 
-    use Basis/NIO/File.Path;
-    use Basis/NIO/Charset.Charset;
+    use Basis/NIO/File.Path
+    use Basis/NIO/Charset.Charset
     
     use Text/PrettyPrint.{Doc, render, 
         vcat, besideSpace, beside, encloseSep, 
-        dquotes, group, hang};
-    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty};
-    use Text/PrettyPrint.{<>, <<>>, <&&>, <!>};
+        dquotes, group, hang}
+    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
+    use Text/PrettyPrint.{<>, <<>>, <&&>, <!>}
+
+    use Text/HtmlDoc.HtmlElement
+    use Text/HtmlDoc.HtmlElement.{
+        HtmlText, HtmlTag, HtmlTagNoBody,HtmlComment
+    }
+    use Text/HtmlDoc.HtmlAttr
+    use Text/HtmlDoc.HtmlAttr.{
+        HtmlAttr, HtmlAttrBoolean
+    }
+    use Text/HtmlDoc.Html
+    use Text/HtmlDoc.Html.{Html}
 
     /// Convention use X suffix to avoid nameclashes e.g. objectX
 
@@ -32,9 +43,9 @@ namespace Text/HtmlDoc {
     /// TODO - probably shouldn't be exposed...
     /// Do we need a `Raw` element for `script` and `svg` content?
     pub enum HtmlElement {
-        case HtmlText(String),
-        case HtmlTag(String, List[HtmlAttr], Html),
-        case HtmlTagNoBody(String, List[HtmlAttr]),
+        case HtmlText(String)
+        case HtmlTag(String, List[HtmlAttr], Html)
+        case HtmlTagNoBody(String, List[HtmlAttr])
         case HtmlComment(String)
     }
 
@@ -58,7 +69,7 @@ namespace Text/HtmlDoc {
     /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
     ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml!(width: Int32, path: Path, cs: Charset, x: Html): Result[Unit, String] \ IO = 
+    pub def writeHtml!(width: Int32, path: Path, cs: Charset, x: Html): Result[String, Unit] \ IO = 
         use Result.flatMap;
         let opts = List.map(Basis/NIO/File/StandardOpenOption.toOpenOption, Basis/NIO/File/StandardOpenOption/StandardOpenOption.Create :: Nil);
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
@@ -102,9 +113,9 @@ namespace Text/HtmlDoc {
     /// Returns string `s` with all occurences of HTML special characters replaced.
     ///
     def escapeHtml(s: String): String =
-        region r {
-            let sb = new StringBuilder(r);
-            String.foldLeft((_,c) -> escapeHtmlChar(sb,c), (), s);
+        region rc {
+            let sb = StringBuilder.new(rc);
+            String.foldLeft((_, acc) -> escapeHtmlChar(sb, acc), (), s);
             StringBuilder.toString(sb)
         }
 
