@@ -15,27 +15,24 @@
  */
 
     
-namespace Text/HtmlDoc {
-
-    use Basis/NIO/File.Path
-    use Basis/NIO/Charset.Charset
+mod Text.HtmlDoc {
     
-    use Text/PrettyPrint.{Doc, render, 
+    use Text.PrettyPrint.{Doc, render, 
         vcat, besideSpace, beside, encloseSep, 
         dquotes, group, hang}
-    use Text/PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
-    use Text/PrettyPrint.{<>, <<>>, <&&>, <!>}
+    use Text.PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
+    use Text.PrettyPrint.{<>, <<>>, <&&>, <!>}
 
-    use Text/HtmlDoc.HtmlElement
-    use Text/HtmlDoc.HtmlElement.{
+    use Text.HtmlDoc.HtmlElement
+    use Text.HtmlDoc.HtmlElement.{
         HtmlText, HtmlTag, HtmlTagNoBody,HtmlComment
     }
-    use Text/HtmlDoc.HtmlAttr
-    use Text/HtmlDoc.HtmlAttr.{
+    use Text.HtmlDoc.HtmlAttr
+    use Text.HtmlDoc.HtmlAttr.{
         HtmlAttr, HtmlAttrBoolean
     }
-    use Text/HtmlDoc.Html
-    use Text/HtmlDoc.Html.{Html}
+    use Text.HtmlDoc.Html
+    use Text.HtmlDoc.Html.{Html}
 
     /// Convention use X suffix to avoid nameclashes e.g. objectX
 
@@ -69,11 +66,10 @@ namespace Text/HtmlDoc {
     /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
     ///     prettyPrint!(sb, width, ppHtml(x, identity))
 
-    pub def writeHtml!(width: Int32, path: Path, cs: Charset, x: Html): Result[String, Unit] \ IO = 
+    pub def writeHtml!(width: Int32, path: String, x: Html): Result[String, Bool] \ IO = 
         use Result.flatMap;
-        let opts = List.map(Basis/NIO/File/StandardOpenOption.toOpenOption, Basis/NIO/File/StandardOpenOption/StandardOpenOption.Create :: Nil);
         let str = render(width, ppDocType() <&&> ppHtml(x, identity));
-        Basis/NIO/File/Files.writeStringWithCharset!(path, cs, opts, str)
+        File.write(path, str)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 

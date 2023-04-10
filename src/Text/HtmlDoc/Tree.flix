@@ -15,7 +15,7 @@
  */
 
 
-namespace Text/HtmlDoc/Tree {
+mod Text/HtmlDoc/Tree {
 
     
     use DataLib.{RoseTree, RoseForest};

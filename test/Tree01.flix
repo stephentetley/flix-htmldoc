@@ -4,9 +4,9 @@ use Data.{RoseTree, RoseForest};
 use Data.RoseTree.{Node};
 
 
-use Text/HtmlDoc.{Html};
-use Text/HtmlDoc.{writeHtml, html, head, meta, title, body, text, toString, lang_, charset_};
-use Text/HtmlDoc.{<&>};
+use Text.HtmlDoc.{Html};
+use Text.HtmlDoc.{writeHtml, html, head, meta, title, body, text, toString, lang_, charset_};
+use Text.HtmlDoc.{<&>};
 
 def leaf(s: String): RoseTree[String] = Node(s, Nil)
 def node(s: String, kids: RoseForest[String]): RoseTree[String] = Node(s, kids)

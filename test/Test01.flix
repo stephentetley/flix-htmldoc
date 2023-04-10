@@ -1,8 +1,8 @@
 
-namespace Test01 {
+mod Test01 {
 
-    use Text/HtmlDoc.{Html};
-    use Text/HtmlDoc.{html, text, toString};
+    use Text.HtmlDoc.{Html};
+    use Text.HtmlDoc.{html, text, toString};
 
 
     def doc1(): Html = html(Nil, text("blank document"))
@@ -15,7 +15,7 @@ namespace Test01 {
 
     @test
     def test02(): String = 
-        use Text/HtmlDoc.{tr, colspan_};
+        use Text.HtmlDoc.{tr, colspan_};
         tr(colspan_(2) :: Nil, text("...")) |> toString
 
 
