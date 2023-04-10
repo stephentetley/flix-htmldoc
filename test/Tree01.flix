@@ -25,8 +25,8 @@ def makeDoc(content: Html): Html =
 
 def main(): Result[Unit, System.Error] & Impure =
     let printer = { makeAttrs= _ -> Nil, printNode = s -> text(s) };
-    let tree = Text/HtmlDoc/Tree.collapsibleTree(printer,  tree01());
+    let tree = Text.HtmlDoc.Tree.collapsibleTree(printer,  tree01());
     let doc = makeDoc(tree);
-    writeHtml(160, "e:/coding/flix/flix-htmldoc/output/Tree.html", Text/Charset.utf_8(), doc)
+    writeHtml(160, "e:/coding/flix/flix-htmldoc/output/Tree.html", Text.Charset.utf_8(), doc)
     
 */

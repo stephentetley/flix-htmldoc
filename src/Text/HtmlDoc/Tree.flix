@@ -15,13 +15,13 @@
  */
 
 
-mod Text/HtmlDoc/Tree {
+mod Text.HtmlDoc.Tree {
 
     
     use DataLib.{RoseTree, RoseForest};
     use DataLib.RoseTree.{Node};
-    use Text/HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
-    use Text/HtmlDoc.{<&>};
+    use Text.HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
+    use Text.HtmlDoc.{<&>};
 
     pub type alias LabelPrinter[a] = 
         { makeAttrs = a -> List[HtmlAttr]
