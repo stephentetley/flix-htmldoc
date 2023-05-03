@@ -19,7 +19,7 @@ mod Test01 {
         tr(colspan_(2) :: Nil, text("...")) |> toString
 
 
-    pub def runTests(): Unit & Impure =
+    pub def runTests(): Unit \ IO =
         test01() |> println;
         test02() |> println
         
