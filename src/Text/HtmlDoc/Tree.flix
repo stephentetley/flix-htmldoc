@@ -18,10 +18,10 @@
 mod Text.HtmlDoc.Tree {
 
     
-    use DataLib.{RoseTree, RoseForest};
-    use DataLib.RoseTree.{Node};
-    use Text.HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_};
-    use Text.HtmlDoc.{<&>};
+    use RoseTree.{Tree, Forest}
+    use RoseTree.Tree.{Node}
+    use Text.HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_}
+    use Text.HtmlDoc.{<&>}
 
     pub type alias LabelPrinter[a] = 
         { makeAttrs = a -> List[HtmlAttr]
@@ -29,7 +29,7 @@ mod Text.HtmlDoc.Tree {
         }
 
 
-    pub def collapsibleTree(printer: LabelPrinter[a], node: RoseTree[a]): Html = 
+    pub def collapsibleTree(printer: LabelPrinter[a], node: Tree[a]): Html = 
         let mkAttrs = printer.makeAttrs;
         let mkNode = printer.printNode;
         match node {
@@ -39,7 +39,7 @@ mod Text.HtmlDoc.Tree {
             }
         }
 
-    def collapsibleNode(printer: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
+    def collapsibleNode(printer: LabelPrinter[a], node: Tree[a], k: Html -> Html): Html = 
         let mkAttrs = printer.makeAttrs;
         let mkNode = printer.printNode;
         match node {
@@ -53,7 +53,7 @@ mod Text.HtmlDoc.Tree {
             }
         }   
 
-    def collapsibleKids(printer: LabelPrinter[a], nodes: RoseForest[a], k: List[Html] -> Html): Html = match nodes { 
+    def collapsibleKids(printer: LabelPrinter[a], nodes: Forest[a], k: List[Html] -> Html): Html = match nodes { 
         case Nil => k(Nil)
         case x :: rs => 
             collapsibleNode(printer, x, v1 -> collapsibleKids(printer, rs, vs -> k(v1 :: vs)))
@@ -62,7 +62,7 @@ mod Text.HtmlDoc.Tree {
 
     /// Version with custom printers for nodes with children and leaves (without children).
 
-    pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a]): Html = 
+    pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: Tree[a]): Html = 
         match node {
             case Node(label, kids) => { 
                 let mkAttrs = nodePrinter.makeAttrs;
@@ -73,7 +73,7 @@ mod Text.HtmlDoc.Tree {
         }
 
 
-    def collapsibleNode2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: RoseTree[a], k: Html -> Html): Html = 
+    def collapsibleNode2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: Tree[a], k: Html -> Html): Html = 
         match node {
             case Node(label, Nil) => { 
                 let mkAttrs = leafPrinter.makeAttrs;
@@ -89,7 +89,7 @@ mod Text.HtmlDoc.Tree {
             }
         }   
 
-    def collapsibleKids2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], nodes: RoseForest[a], k: List[Html] -> Html): Html = match nodes { 
+    def collapsibleKids2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], nodes: Forest[a], k: List[Html] -> Html): Html = match nodes { 
         case Nil => k(Nil)
         case x :: rs => 
             collapsibleNode2(nodePrinter, leafPrinter, x, v1 -> collapsibleKids2(nodePrinter, leafPrinter, rs, vs -> k(v1 :: vs)))
