@@ -18,9 +18,5 @@ mod Test01 {
         use Text.HtmlDoc.{tr, colspan_};
         tr(colspan_(2) :: Nil, text("...")) |> toString
 
-
-    pub def runTests(): Unit \ IO =
-        test01() |> println;
-        test02() |> println
         
 }
