@@ -115,7 +115,7 @@ mod Text.HtmlDoc {
             StringBuilder.toString(sb)
         }
 
-    def escapeHtmlChar(sb: StringBuilder[r], c: Char): Unit \Write(r) = match c { 
+    def escapeHtmlChar(sb: StringBuilder[r], c: Char): Unit \ r = match c { 
         case '<'        => StringBuilder.appendString!("&lt;", sb)
         case '>'        => StringBuilder.appendString!("&gt;", sb)
         case '&'        => StringBuilder.appendString!("&amp;", sb)
