@@ -1,3 +1,6 @@
+### v0.1.3
+   Added void elements and `empty`.
+
 ### v0.1.2
    Updated `flix-pretty` dependency.
 

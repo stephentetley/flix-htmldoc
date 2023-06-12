@@ -18,5 +18,14 @@ mod Test01 {
         use Text.HtmlDoc.{tr, colspan_};
         tr(colspan_(2) :: Nil, text("...")) |> toString
 
-        
+    @test
+    def test03(): Unit \ IO = 
+        use Text.HtmlDoc.{br, empty};
+        br(Nil, empty()) |> toString |> println
+
+    @test
+    def test04(): Unit \ IO = 
+        use Text.HtmlDoc.{br0};
+        br0(Nil) |> toString |> println
+
 }

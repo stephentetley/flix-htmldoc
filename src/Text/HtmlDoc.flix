@@ -58,17 +58,20 @@ mod Text.HtmlDoc {
     /// Potentially we need a "no-pretty" version for speed.
 
 
-    pub def toString(x: Html): String = outputHtml(120, x)
+    ///
+    /// Render the Html document `doc` to a String with a fixed width of 120 characters.
+    ///
+    pub def toString(doc: Html): String = outputHtml(120, doc)
 
     pub def outputHtml(width: Int32, x: Html): String = 
         render(width, ppHtml(x, identity))
 
-    /// pub def appendHtml!(sb: StringBuilder, x: Html, width: Int32): Unit & Impure = 
-    ///     prettyPrint!(sb, width, ppHtml(x, identity))
-
-    pub def writeHtml!(width: Int32, path: String, x: Html): Result[String, Bool] \ IO = 
+    ///
+    /// Output the Html document `doc` to the file `path`.
+    ///
+    pub def writeHtml!(width: Int32, path: String, doc: Html): Result[String, Bool] \ IO = 
         use Result.flatMap;
-        let str = render(width, ppDocType() <&&> ppHtml(x, identity));
+        let str = render(width, ppDocType() <&&> ppHtml(doc, identity));
         File.write(path, str)
 
 
@@ -146,6 +149,9 @@ mod Text.HtmlDoc {
         case x :: rs => concatHelper(rs, ac <&> x)
     }
 
+
+    pub def empty(): Html = 
+        Html(identity)
 
     ///
     /// Tags
@@ -291,6 +297,7 @@ mod Text.HtmlDoc {
 
     pub def noscript(attrs: List[HtmlAttr], content: Html): Html    = makeHtml(HtmlTag("noscript", attrs, content))
     
+
     ///
     /// Demarkating edits
     ///
@@ -313,6 +320,24 @@ mod Text.HtmlDoc {
     pub def thead(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("thead", attrs, content))
     pub def tr(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("tr", attrs, content))
     
+
+    ///
+    /// Void elements
+    ///
+
+    pub def area0(attrs: List[HtmlAttr]): Html                      = makeHtml(HtmlTagNoBody("area /", attrs))
+    pub def base0(attrs: List[HtmlAttr]): Html                      = makeHtml(HtmlTagNoBody("base /", attrs))
+    pub def br0(attrs: List[HtmlAttr]): Html                        = makeHtml(HtmlTagNoBody("br /", attrs))
+    pub def col0(attrs: List[HtmlAttr]): Html                       = makeHtml(HtmlTagNoBody("col /", attrs))
+    pub def embed0(attrs: List[HtmlAttr]): Html                     = makeHtml(HtmlTagNoBody("embed /", attrs))
+    pub def img0(attrs: List[HtmlAttr]): Html                       = makeHtml(HtmlTagNoBody("img /", attrs))
+    pub def input0(attrs: List[HtmlAttr]): Html                     = makeHtml(HtmlTagNoBody("input /", attrs))
+    pub def link0(attrs: List[HtmlAttr]): Html                      = makeHtml(HtmlTagNoBody("link /", attrs))
+    pub def meta0(attrs: List[HtmlAttr]): Html                      = makeHtml(HtmlTagNoBody("meta /", attrs))
+    pub def source0(attrs: List[HtmlAttr]): Html                    = makeHtml(HtmlTagNoBody("source /", attrs))
+    pub def track0(attrs: List[HtmlAttr]): Html                     = makeHtml(HtmlTagNoBody("track /", attrs))
+    pub def wbr0(attrs: List[HtmlAttr]): Html                       = makeHtml(HtmlTagNoBody("wbr /", attrs))
+
     ///
     /// Forms
     ///
