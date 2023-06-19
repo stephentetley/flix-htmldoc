@@ -18,7 +18,7 @@
 mod Text.HtmlDoc {
     
     use Text.PrettyPrint.{Doc, render, 
-        vcat, besideSpace, beside, encloseSep, 
+        hcat, besideSpace, beside, encloseSep, 
         dquotes, group, hang}
     use Text.PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
     use Text.PrettyPrint.{<>, <<>>, <&&>, <!>}
@@ -77,19 +77,19 @@ mod Text.HtmlDoc {
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
         let Html(f) = x;
-        ppHtmlElements(f(Nil), xs -> k(vcat(xs)))
+        ppHtmlElements(f(Nil), xs -> k(hcat(xs)))
 
     
     def ppHtmlElement(x: HtmlElement, k: Doc -> Doc): Doc = match x { 
         case HtmlText(s)                => k(ppText(s))
         case HtmlComment(s)             => k(ppText("<!--") <<>> ppText(s) <<>> ppText("-->"))
         case HtmlTag(name, attrs, body) => 
-            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <!> v1) <!> ppClosingTag(name)))
+            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <> v1) <> ppClosingTag(name)))
         case HtmlTagNoBody(name, attrs) => k(ppOpeningTag(name, attrs))
     }
 
     def ppHtmlElements(xs: List[HtmlElement], k: List[Doc] -> Doc): Doc = match xs { 
-        case Nil => k(Nil)
+        case Nil     => k(Nil)
         case x :: rs => ppHtmlElement(x, v1 -> ppHtmlElements(rs, vs -> k(v1 :: vs)))
     }
 
@@ -137,7 +137,15 @@ mod Text.HtmlDoc {
         case (Html(k1), Html(k2)) => Html(xs -> k1(k2(xs)))
     }
 
+    ///
+    /// Concantenate two HTML fragements.
+    ///
     pub def <&>(x: Html, y: Html): Html = append(x, y)
+
+    ///
+    /// Concantenate two HTML fragements with a space in between.
+    ///
+    pub def <&&>(x: Html, y: Html): Html = append(x, append(text(" "), y))
 
     pub def concat(xs: List[Html]): Html = match xs { 
         case Nil     => Html(ks -> ks)

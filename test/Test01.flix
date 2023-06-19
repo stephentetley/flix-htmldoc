@@ -28,4 +28,16 @@ mod Test01 {
         use Text.HtmlDoc.{br0};
         br0(Nil) |> toString |> println
 
+
+    @test
+    def test05(): Unit \ IO = 
+        use Text.HtmlDoc.{<&>, link0};
+        (link0(Nil) <&> link0(Nil)) |> toString |> println
+
+
+    @test
+    def test06(): Unit \ IO = 
+        use Text.HtmlDoc.{<&&>, link0};
+        (link0(Nil) <&&> link0(Nil)) |> toString |> println
+
 }
