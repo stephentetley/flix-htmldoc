@@ -1,3 +1,6 @@
+### v0.1.5
+   Updated to use the renamed `Files` module in the standard library.
+
 ### v0.1.4
    Changed the renderer to use `hcat` combinator and not add space between elements.
    Updated `flix-pretty` dep.
