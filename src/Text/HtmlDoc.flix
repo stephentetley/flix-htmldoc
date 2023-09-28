@@ -69,7 +69,7 @@ mod Text.HtmlDoc {
     ///
     /// Output the Html document `doc` to the file `path`.
     ///
-    pub def writeHtml!(width: Int32, path: String, doc: Html): Result[String, Bool] \ IO = 
+    pub def writeHtml!(width: Int32, path: String, doc: Html): Result[IOError, Bool] \ IO = 
         use Result.flatMap;
         let str = render(width, ppDocType() <&&> ppHtml(doc, identity));
         Files.write(path, str)

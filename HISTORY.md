@@ -1,3 +1,6 @@
+### v0.1.6
+   Updated to handle changes to `Files` module in the standard library (`IOError`).
+
 ### v0.1.5
    Updated to use the renamed `Files` module in the standard library.
 
