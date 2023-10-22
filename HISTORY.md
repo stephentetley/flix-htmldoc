@@ -1,3 +1,6 @@
+### v0.1.7
+   Updated `flix-rosetree` dependency.
+   
 ### v0.1.6
    Updated to handle changes to `Files` module in the standard library (`IOError`).
 

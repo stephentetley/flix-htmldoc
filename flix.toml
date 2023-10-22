@@ -1,12 +1,12 @@
 [package]
 name        = "flix-htmldoc"
 description = "A Flix combinator library to generate HTML."
-version     = "0.1.6"
+version     = "0.1.7"
 flix        = "0.41.0"
 license     = "Apache-2.0"
 authors     = ["Stephen Tetley <stephen.tetley@gmail.com>"]
 
 [dependencies]
-"github:stephentetley/flix-rosetree"           = "0.1.0"
+"github:stephentetley/flix-rosetree"           = "0.1.1"
 "github:stephentetley/flix-pretty"             = "0.3.3"
 
