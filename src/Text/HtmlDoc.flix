@@ -113,7 +113,7 @@ mod Text.HtmlDoc {
     ///
     def escapeHtml(s: String): String =
         region rc {
-            let sb = StringBuilder.new(rc);
+            let sb = StringBuilder.empty(rc);
             String.foldLeft((_, acc) -> escapeHtmlChar(sb, acc), (), s);
             StringBuilder.toString(sb)
         }
