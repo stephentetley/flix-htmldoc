@@ -1,3 +1,7 @@
+### v0.1.9
+   Updated `flix-pretty` dependency.
+   Updated `flix-rosetree` dependency.
+
 ### v0.1.8
    Updated to use `StringBuilder.empty()`.
    Updated `flix-pretty` dependency.

@@ -21,7 +21,7 @@ mod Text.HtmlDoc {
         hcat, besideSpace, beside, encloseSep, 
         dquotes, group, hang}
     use Text.PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
-    use Text.PrettyPrint.{<>, <<>>, <&&>, <!>}
+    use Text.PrettyPrint.{<<>>, <&&>, <!>}
 
     use Text.HtmlDoc.HtmlElement
     use Text.HtmlDoc.HtmlElement.{
@@ -84,7 +84,7 @@ mod Text.HtmlDoc {
         case HtmlText(s)                => k(ppText(s))
         case HtmlComment(s)             => k(ppText("<!--") <<>> ppText(s) <<>> ppText("-->"))
         case HtmlTag(name, attrs, body) => 
-            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) <> v1) <> ppClosingTag(name)))
+            ppHtml(body, v1 -> k(hang(2, ppOpeningTag(name, attrs) + v1) + ppClosingTag(name)))
         case HtmlTagNoBody(name, attrs) => k(ppOpeningTag(name, attrs))
     }
 
@@ -102,7 +102,7 @@ mod Text.HtmlDoc {
 
     // TODO - check for double quotes in value, if present use single quotes... 
     def ppAttr (attr: HtmlAttr): Doc = match attr {
-        case HtmlAttr(name, value)  => group(ppText(name) <> ppChar('=') <> dquotes(ppText(value)))
+        case HtmlAttr(name, value)  => group(ppText(name) + ppChar('=') + dquotes(ppText(value)))
         case HtmlAttrBoolean(name)  => ppText(name)
     }
 
