@@ -1,3 +1,7 @@
+### v0.1.10
+   Updated `flix-pretty` dependency.
+   Internal change to use SemiGroup's `++` operator.
+
 ### v0.1.9
    Updated `flix-pretty` dependency.
    Updated `flix-rosetree` dependency.
