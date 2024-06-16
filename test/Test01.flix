@@ -40,4 +40,23 @@ mod Test01 {
         use Text.HtmlDoc.{<&&>, link0};
         (link0(Nil) <&&> link0(Nil)) |> toString |> println
 
+    @test
+    def test07(): Unit \ IO =
+        use Text.HtmlDoc.{anchor, HtmlAttr, text};
+        anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString |> println
+
+    @test
+    def test08(): Unit \ IO =
+        use Text.HtmlDoc.{anchor, HtmlAttr, text};
+        anchor(List#{HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString |> println
+
+    @test
+    def test09(): Unit \ IO =
+        use Text.HtmlDoc.{anchor, HtmlAttr, text};
+        anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com"), HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString |> println
+
+    @test
+    def test10(): Unit \ IO =
+        use Text.HtmlDoc.{anchor, HtmlAttr, text};
+        anchor(List#{HtmlAttr.HtmlAttrBoolean("download"), HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString |> println
 }

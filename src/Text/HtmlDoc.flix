@@ -95,7 +95,7 @@ mod Text.HtmlDoc {
 
     def ppOpeningTag(name: String, attrs: List[HtmlAttr]): Doc = match attrs {
         case Nil => ppText("<" ++ name ++ ">")
-        case _   => group(encloseSep(ppText("<" ++ name), ppChar('>'), ppEmpty(), List.map(ppAttr, attrs)))
+        case _   => group(encloseSep(ppText("<" ++ name + " "), ppChar('>'), ppEmpty(), List.map(ppAttr, attrs)))
     }
 
     def ppClosingTag(name: String): Doc = ppText("</" ++ name ++ ">")
