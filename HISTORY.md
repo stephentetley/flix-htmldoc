@@ -1,3 +1,6 @@
+### v0.2.0
+   Fixed missing space problem between tag and attribute - thanks Matthew.
+
 ### v0.1.10
    Updated `flix-pretty` dependency.
    Internal change to use SemiGroup's `++` operator.
