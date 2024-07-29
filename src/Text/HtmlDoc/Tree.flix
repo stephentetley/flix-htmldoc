@@ -30,8 +30,8 @@ mod Text.HtmlDoc.Tree {
 
 
     pub def collapsibleTree(printer: LabelPrinter[a], node: Tree[a]): Html = 
-        let mkAttrs = printer.makeAttrs;
-        let mkNode = printer.printNode;
+        let mkAttrs = printer#makeAttrs;
+        let mkNode = printer#printNode;
         match node {
             case Node(label, kids) => { 
                 let ans = summary(mkAttrs(label), mkNode(label));
@@ -40,8 +40,8 @@ mod Text.HtmlDoc.Tree {
         }
 
     def collapsibleNode(printer: LabelPrinter[a], node: Tree[a], k: Html -> Html): Html = 
-        let mkAttrs = printer.makeAttrs;
-        let mkNode = printer.printNode;
+        let mkAttrs = printer#makeAttrs;
+        let mkNode = printer#printNode;
         match node {
             case Node(label, Nil) => { 
                 let ans = li(mkAttrs(label), mkNode(label));
@@ -65,8 +65,8 @@ mod Text.HtmlDoc.Tree {
     pub def collapsibleTree2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: Tree[a]): Html = 
         match node {
             case Node(label, kids) => { 
-                let mkAttrs = nodePrinter.makeAttrs;
-                let mkNode = nodePrinter.printNode;        
+                let mkAttrs = nodePrinter#makeAttrs;
+                let mkNode = nodePrinter#printNode;        
                 let ans = summary(mkAttrs(label), mkNode(label));
                 collapsibleKids2(nodePrinter, leafPrinter, kids, vs -> details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))
             }
@@ -76,14 +76,14 @@ mod Text.HtmlDoc.Tree {
     def collapsibleNode2(nodePrinter: LabelPrinter[a], leafPrinter: LabelPrinter[a], node: Tree[a], k: Html -> Html): Html = 
         match node {
             case Node(label, Nil) => { 
-                let mkAttrs = leafPrinter.makeAttrs;
-                let mkNode = leafPrinter.printNode;        
+                let mkAttrs = leafPrinter#makeAttrs;
+                let mkNode = leafPrinter#printNode;        
                 let ans = li(mkAttrs(label), mkNode(label));
                 k(ans)
             }
             case Node(label, kids) => { 
-                let mkAttrs = nodePrinter.makeAttrs;
-                let mkNode = nodePrinter.printNode;    
+                let mkAttrs = nodePrinter#makeAttrs;
+                let mkNode = nodePrinter#printNode;    
                 let ans = summary(mkAttrs(label), mkNode(label));
                 collapsibleKids2(nodePrinter, leafPrinter, kids, vs -> k(li(Nil, details(open_() :: Nil, ans <&> ul(Nil, concat(vs))))))
             }

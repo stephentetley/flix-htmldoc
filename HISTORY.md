@@ -1,3 +1,6 @@
+### v0.2.1
+   Updated Tree interanls to use hash as record field accessor.
+
 ### v0.2.0
    Fixed missing space problem between tag and attribute - thanks Matthew.
 

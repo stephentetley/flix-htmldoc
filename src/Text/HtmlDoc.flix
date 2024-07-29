@@ -246,7 +246,7 @@ mod Text.HtmlDoc {
     pub def italic(attrs: List[HtmlAttr], content: Html): Html      = makeHtml(HtmlTag("i", attrs, content))
     pub def kbd(attrs: List[HtmlAttr], content: Html): Html         = makeHtml(HtmlTag("kbd", attrs, content))
     pub def mark(attrs: List[HtmlAttr], content: Html): Html        = makeHtml(HtmlTag("mark", attrs, content))
-    pub def quotation(attrs: List[HtmlAttr], content: Html): Html       = makeHtml(HtmlTag("q", attrs, content))
+    pub def quotation(attrs: List[HtmlAttr], content: Html): Html   = makeHtml(HtmlTag("q", attrs, content))
     pub def rb(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rt", attrs, content))
     pub def rp(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rp", attrs, content))
     pub def rt(attrs: List[HtmlAttr], content: Html): Html          = makeHtml(HtmlTag("rt", attrs, content))
