@@ -69,7 +69,7 @@ mod Text.HtmlDoc {
     ///
     /// Output the Html document `doc` to the file `path`.
     ///
-    pub def writeHtml!(width: Int32, path: String, doc: Html): Result[IOError, Bool] \ IO = 
+    pub def writeHtml(width: Int32, path: String, doc: Html): Result[IOError, Bool] \ IO = 
         use Result.flatMap;
         let str = render(width, ppDocType() <&&> ppHtml(doc, identity));
         Files.write(path, str)
@@ -119,12 +119,12 @@ mod Text.HtmlDoc {
         }
 
     def escapeHtmlChar(sb: StringBuilder[r], c: Char): Unit \ r = match c { 
-        case '<'        => StringBuilder.appendString!("&lt;", sb)
-        case '>'        => StringBuilder.appendString!("&gt;", sb)
-        case '&'        => StringBuilder.appendString!("&amp;", sb)
-        case '"'        => StringBuilder.appendString!("&quot;", sb)
-        case '\u00A0'   => StringBuilder.appendString!("&nbsp;", sb)
-        case _          => StringBuilder.append!(c, sb)
+        case '<'        => StringBuilder.appendString("&lt;", sb)
+        case '>'        => StringBuilder.appendString("&gt;", sb)
+        case '&'        => StringBuilder.appendString("&amp;", sb)
+        case '"'        => StringBuilder.appendString("&quot;", sb)
+        case '\u00A0'   => StringBuilder.appendString("&nbsp;", sb)
+        case _          => StringBuilder.append(c, sb)
     }
 
 

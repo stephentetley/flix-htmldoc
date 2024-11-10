@@ -1,5 +1,8 @@
+### v0.3.0
+   Removed use of bang suffix for mutating functions.
+
 ### v0.2.1
-   Updated Tree interanls to use hash as record field accessor.
+   Updated Tree internals to use hash as record field accessor.
 
 ### v0.2.0
    Fixed missing space problem between tag and attribute - thanks Matthew.
