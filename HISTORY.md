@@ -1,3 +1,6 @@
+### v0.3.1
+   Updated `flix-pretty` dependency which no longer depends on `Files` in Flix's stdlib.
+
 ### v0.3.0
    Removed use of bang suffix for mutating functions.
 

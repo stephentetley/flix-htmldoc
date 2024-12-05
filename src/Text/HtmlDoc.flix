@@ -19,7 +19,7 @@ mod Text.HtmlDoc {
     
     use Text.PrettyPrint.{Doc, render, 
         hcat, besideSpace, beside, encloseSep, 
-        dquotes, group, hang}
+        dquotes, group, hang, writePretty}
     use Text.PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
     use Text.PrettyPrint.{<<>>, <&&>, <!>}
 
@@ -69,10 +69,9 @@ mod Text.HtmlDoc {
     ///
     /// Output the Html document `doc` to the file `path`.
     ///
-    pub def writeHtml(width: Int32, path: String, doc: Html): Result[IOError, Bool] \ IO = 
-        use Result.flatMap;
-        let str = render(width, ppDocType() <&&> ppHtml(doc, identity));
-        Files.write(path, str)
+    pub def writeHtml(width: Int32, path: String, doc: Html): Result[String, Bool] \ IO = 
+        let doc1 = ppDocType() <&&> ppHtml(doc, identity);
+        writePretty(path, width, doc1)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
