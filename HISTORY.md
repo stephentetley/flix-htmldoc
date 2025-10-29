@@ -1,3 +1,6 @@
+### v0.4.0
+   Updated `flix.toml` to use trust levels.
+
 ### v0.3.1
    Updated `flix-pretty` dependency which no longer depends on `Files` in Flix's stdlib.
 
