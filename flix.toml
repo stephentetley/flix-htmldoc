@@ -7,6 +7,6 @@ license     = "Apache-2.0"
 authors     = ["Stephen Tetley <stephen.tetley@gmail.com>"]
 
 [dependencies]
-"github:stephentetley/flix-rosetree" = { "version" = "0.2.0", "trust" = "unrestricted" }
-"github:stephentetley/flix-pretty" = { "version" = "0.9.0", "trust" = "unrestricted" }
+"github:stephentetley/flix-rosetree" = { version = "0.2.0", security = "unrestricted" }
+"github:stephentetley/flix-pretty" = { version = "0.9.0", security = "unrestricted" }
 
