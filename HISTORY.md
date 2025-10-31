@@ -1,3 +1,6 @@
+### v0.4.1
+   Updated `flix.toml` - renamed "trust" to "security". Thanks Jakob.
+
 ### v0.4.0
    Updated `flix.toml` to use trust levels.
 
