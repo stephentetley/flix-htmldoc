@@ -1,3 +1,6 @@
+### v0.4.2
+   Updated `flix-pretty` dependency.
+
 ### v0.4.1
    Updated `flix.toml` - renamed "trust" to "security". Thanks Jakob.
 
