@@ -1,3 +1,6 @@
+### v0.4.3
+   Updated tests to use `Assert` effect. Thanks Magnus.
+   
 ### v0.4.2
    Updated `flix-pretty` dependency.
 
