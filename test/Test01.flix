@@ -3,60 +3,61 @@ mod Test01 {
 
     use Text.HtmlDoc.{Html};
     use Text.HtmlDoc.{html, text, toString};
+    use Assert.{assertEq};
 
 
     def doc1(): Html = html(Nil, text("blank document"))
 
 
 
-    @test
-    def test01(): String = 
-        doc1() |> toString
+    @Test
+    def test01(): Unit \ Assert =
+        assertEq(expected = "<html>blank document</html>", doc1() |> toString)
 
-    @test
-    def test02(): String = 
+    @Test
+    def test02(): Unit \ Assert =
         use Text.HtmlDoc.{tr, colspan_};
-        tr(colspan_(2) :: Nil, text("...")) |> toString
+        assertEq(expected = "<tr colspan=\"2\">...</tr>", tr(colspan_(2) :: Nil, text("...")) |> toString)
 
-    @test
-    def test03(): Unit \ IO = 
+    @Test
+    def test03(): Unit \ Assert =
         use Text.HtmlDoc.{br, empty};
-        br(Nil, empty()) |> toString |> println
+        assertEq(expected = "<br></br>", br(Nil, empty()) |> toString)
 
-    @test
-    def test04(): Unit \ IO = 
+    @Test
+    def test04(): Unit \ Assert =
         use Text.HtmlDoc.{br0};
-        br0(Nil) |> toString |> println
+        assertEq(expected = "<br />", br0(Nil) |> toString)
 
 
-    @test
-    def test05(): Unit \ IO = 
+    @Test
+    def test05(): Unit \ Assert =
         use Text.HtmlDoc.{<&>, link0};
-        (link0(Nil) <&> link0(Nil)) |> toString |> println
+        assertEq(expected = "<link /><link />", (link0(Nil) <&> link0(Nil)) |> toString)
 
 
-    @test
-    def test06(): Unit \ IO = 
+    @Test
+    def test06(): Unit \ Assert =
         use Text.HtmlDoc.{<&&>, link0};
-        (link0(Nil) <&&> link0(Nil)) |> toString |> println
+        assertEq(expected = "<link /> <link />", (link0(Nil) <&&> link0(Nil)) |> toString)
 
-    @test
-    def test07(): Unit \ IO =
+    @Test
+    def test07(): Unit \ Assert =
         use Text.HtmlDoc.{anchor, HtmlAttr, text};
-        anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString |> println
+        assertEq(expected = "<a href=\"https://example.com\">Click me!</a>", anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString)
 
-    @test
-    def test08(): Unit \ IO =
+    @Test
+    def test08(): Unit \ Assert =
         use Text.HtmlDoc.{anchor, HtmlAttr, text};
-        anchor(List#{HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString |> println
+        assertEq(expected = "<a download>Click me!</a>", anchor(List#{HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString)
 
-    @test
-    def test09(): Unit \ IO =
+    @Test
+    def test09(): Unit \ Assert =
         use Text.HtmlDoc.{anchor, HtmlAttr, text};
-        anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com"), HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString |> println
+        assertEq(expected = "<a href=\"https://example.com\" download>Click me!</a>", anchor(List#{HtmlAttr.HtmlAttr("href", "https://example.com"), HtmlAttr.HtmlAttrBoolean("download")}, text("Click me!")) |> toString)
 
-    @test
-    def test10(): Unit \ IO =
+    @Test
+    def test10(): Unit \ Assert =
         use Text.HtmlDoc.{anchor, HtmlAttr, text};
-        anchor(List#{HtmlAttr.HtmlAttrBoolean("download"), HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString |> println
+        assertEq(expected = "<a download href=\"https://example.com\">Click me!</a>", anchor(List#{HtmlAttr.HtmlAttrBoolean("download"), HtmlAttr.HtmlAttr("href", "https://example.com")}, text("Click me!")) |> toString)
 }
