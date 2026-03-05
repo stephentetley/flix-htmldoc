@@ -1,3 +1,7 @@
+### v0.5.0
+   Changed the namespace, the top level module is now `HtmlDoc` and 
+   the helper module for tree printing is `HtmlDoc.Tree`.
+
 ### v0.4.3
    Updated tests to use `Assert` effect. Thanks Magnus.
    

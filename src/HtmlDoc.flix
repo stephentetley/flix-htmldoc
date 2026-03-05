@@ -15,24 +15,24 @@
  */
 
     
-mod Text.HtmlDoc {
+pub mod HtmlDoc {
     
-    use Text.PrettyPrint.{Doc, render, 
-        hcat, besideSpace, beside, encloseSep, 
+    use FlixPretty.{Doc}
+    use FlixPretty.{render, hcat, besideSpace, beside, encloseSep,
         dquotes, group, hang, writePretty}
-    use Text.PrettyPrint.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
-    use Text.PrettyPrint.{<<>>, <&&>, <!>}
+    use FlixPretty.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
+    use FlixPretty.{<<>>, <&&>, <!>}
 
-    use Text.HtmlDoc.HtmlElement
-    use Text.HtmlDoc.HtmlElement.{
+    use HtmlDoc.HtmlElement
+    use HtmlDoc.HtmlElement.{
         HtmlText, HtmlTag, HtmlTagNoBody,HtmlComment
     }
-    use Text.HtmlDoc.HtmlAttr
-    use Text.HtmlDoc.HtmlAttr.{
+    use HtmlDoc.HtmlAttr
+    use HtmlDoc.HtmlAttr.{
         HtmlAttr, HtmlAttrBoolean
     }
-    use Text.HtmlDoc.Html
-    use Text.HtmlDoc.Html.{Html}
+    use HtmlDoc.Html
+    use HtmlDoc.Html.{Html}
 
     /// Convention use X suffix to avoid nameclashes e.g. objectX
 
