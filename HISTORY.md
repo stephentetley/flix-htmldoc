@@ -1,3 +1,7 @@
+### v0.5.1
+   Updated `flix-pretty` dependency.
+   Changed arg order and effect of `writeHtml`.
+
 ### v0.5.0
    Changed the namespace, the top level module is now `HtmlDoc` and 
    the helper module for tree printing is `HtmlDoc.Tree`.

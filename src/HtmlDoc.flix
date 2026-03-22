@@ -16,7 +16,9 @@
 
     
 pub mod HtmlDoc {
-    
+        
+    use Fs.FileWrite
+
     use FlixPretty.{Doc}
     use FlixPretty.{render, hcat, besideSpace, beside, encloseSep,
         dquotes, group, hang, writePretty}
@@ -69,9 +71,9 @@ pub mod HtmlDoc {
     ///
     /// Output the Html document `doc` to the file `path`.
     ///
-    pub def writeHtml(width: Int32, path: String, doc: Html): Result[String, Bool] \ IO = 
+    pub def writeHtml(doc: Html, width: Int32, path: String): Result[IoError, Unit] \ FileWrite =
         let doc1 = ppDocType() <&&> ppHtml(doc, identity);
-        writePretty(path, width, doc1)
+        writePretty(doc1, width, path)
 
 
     def ppHtml(x: Html, k: Doc -> Doc): Doc = 
