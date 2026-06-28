@@ -1,3 +1,6 @@
+### v0.5.2
+   Updated `flix-pretty` dependency.
+
 ### v0.5.1
    Updated `flix-pretty` dependency.
    Changed arg order and effect of `writeHtml`.
