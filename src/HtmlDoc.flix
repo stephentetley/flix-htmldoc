@@ -19,11 +19,11 @@ pub mod HtmlDoc {
         
     use Fs.FileWrite
 
-    use FlixPretty.{Doc}
-    use FlixPretty.{render, hcat, besideSpace, beside, encloseSep,
+    use pp::FlixPretty.{Doc}
+    use pp::FlixPretty.{render, hcat, besideSpace, beside, encloseSep,
         dquotes, group, hang, writePretty}
-    use FlixPretty.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
-    use FlixPretty.{<<>>, <&&>, <!>}
+    use pp::FlixPretty.{text => ppText, char => ppChar, space => ppSpace, empty => ppEmpty}
+    use pp::FlixPretty.{<<>>, <&&>, <!>}
 
     use HtmlDoc.HtmlElement
     use HtmlDoc.HtmlElement.{

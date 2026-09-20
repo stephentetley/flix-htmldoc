@@ -1,3 +1,6 @@
+### v0.6.0
+   Updated to use package mounts (Flix compiler version 0.76.2).
+
 ### v0.5.2
    Updated `flix-pretty` dependency.
 

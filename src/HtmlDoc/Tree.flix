@@ -17,9 +17,9 @@
 
 pub mod HtmlDoc.Tree {
 
-    
-    use RoseTree.{Tree, Forest}
-    use RoseTree.Tree.{Node}
+    use rt::RoseTree
+    use rt::RoseTree.{Tree, Forest}
+    use rt::RoseTree.Tree.{Node}
     use HtmlDoc.{Html, HtmlAttr, text, li, ul, details, summary, concat, open_}
     use HtmlDoc.{<&>}
 
