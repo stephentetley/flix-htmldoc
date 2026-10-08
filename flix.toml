@@ -1,12 +1,9 @@
 [package]
-name        = "flix-htmldoc"
-description = "A Flix combinator library to generate HTML."
-version     = "0.6.0"
+version     = "0.7.0"
 flix        = "0.76.2"
-license     = "Apache-2.0"
-authors     = ["Stephen Tetley <stephen.tetley@gmail.com>"]
+repository  = "github:stephentetley/flix-htmldoc"
 
 [dependencies]
-"github:stephentetley/flix-rosetree" = { version = "0.3.0", security = "unrestricted", mount = "rt" }
-"github:stephentetley/flix-pretty" = { version = "0.11.0", security = "unrestricted", mount = "pp" }
+"github:stephentetley/flix-rosetree" = { version = "0.4.0", mount = "rt" }
+"github:stephentetley/flix-pretty" = { version = "0.12.0", mount = "pp" }
 

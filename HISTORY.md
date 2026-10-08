@@ -1,3 +1,6 @@
+### v0.7.0
+   Updated to use new package definition.
+   
 ### v0.6.0
    Updated to use package mounts (Flix compiler version 0.76.2).
 
